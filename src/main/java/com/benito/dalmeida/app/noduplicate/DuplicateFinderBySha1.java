@@ -93,7 +93,8 @@ public class DuplicateFinderBySha1 {
                         if (StringUtils.containsIgnoreCase(fileToRemoveName, rootDir)) {
                             fileToRemoveName = StringUtils.remove(fileToRemoveName, rootDir);
                             if (trashBaseDir == null) {
-                                trashBaseDir = rootDir + FileRenamer.fileSeparator + TRASHABLE;
+                                trashBaseDir = rootDir + FileRenamer.fileSeparator + TRASHABLE
+                                        + FileRenamer.fileSeparator;
                             }
                             break;
                         }
