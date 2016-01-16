@@ -22,13 +22,13 @@ public class RemoveBadWordMainClass {
 
     public static void main(final String[] argrs) {
         final String[] rootDirectories = { /* "Y:" + FileRenamer.fileSeparator + "Téléchargements", */
-                "L:" + FileRenamer.fileSeparator + "Movies",
+                "J:" + FileRenamer.fileSeparator + "Movies",
 
                 "Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "TVShows",
                 "Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "TVShows Archived",
 
                 "Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "Movies",
-                "Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "Movies" + FileRenamer.fileSeparator + "To_Import",
+                /*"Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "Movies" + FileRenamer.fileSeparator + "To_Import",*/
                 "Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "Animations",
                 "Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "Manga",
                 "Z:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "TVShows Archived",
