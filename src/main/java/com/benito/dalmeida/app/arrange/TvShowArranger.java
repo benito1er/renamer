@@ -5,8 +5,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class TvShowArranger {
+	Pattern normalPattern = Pattern.compile("s(\\d{1,2})e(\\d{1,2})");
+	Pattern saisonCrossEpPattern = Pattern.compile("(\\d{1,2})x(\\d{1,2})");
+	Pattern epOnlyPattern = Pattern.compile("(\\d{1,2,3})");
+	
 
 	public void arrange(){
 		String tvShowName;
@@ -15,6 +20,7 @@ public class TvShowArranger {
 		String [] dirs =  {};
 		
 		Map<String, Map<String,List<String>>> existingTvShowDirs=  new HashMap<>();
+		
 		for(String dir : dirs){
 			File currentDir =  new File(dir);
 			if(!currentDir.isDirectory()) continue;
