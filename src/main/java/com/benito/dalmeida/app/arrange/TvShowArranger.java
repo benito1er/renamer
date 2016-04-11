@@ -2,162 +2,142 @@ package com.benito.dalmeida.app.arrange;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TvShowArranger {
-	Pattern normalPattern = Pattern.compile("s(\\d{1,2})e(\\d{1,2})");
-	Pattern saisonCrossEpPattern = Pattern.compile("(\\d{1,2})x(\\d{1,2})");
-	Pattern epOnlyPattern = Pattern.compile("(\\d{1,2,3})");
-	
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 
-	public void arrange(){
-		String tvShowName;
-		String season;
-		String tvShowAndSeason;
-		String [] dirs =  {};
-		
-		Map<String, Map<String,List<String>>> existingTvShowDirs=  new HashMap<>();
-		
-		for(String dir : dirs){
-			File currentDir =  new File(dir);
-			if(!currentDir.isDirectory()) continue;
-			for(File tvShowDir : currentDir.listFiles()){
-				Map<String,List<String>> existingSeason = existingTvShowDirs.get(tvShowDir.getName());
-				if(existingSeason ==null){
-					existingSeason =  new HashMap<>();
-					existingTvShowDirs.put(tvShowDir.getName(), existingSeason);
-				} 
-				for(File tvShowSeasonDir : tvShowDir.listFiles()){
-					
-				}
-			}
-		}
-		
-	}
-	
-	
-	class DownloadedFileInfo{
-		private File currentFile;
-		String tvShowName;
-		String season;
-		String tvShowAndSeason;
-		public DownloadedFileInfo(File currentFile) {
-			super();
-			this.currentFile = currentFile;
-		}
-		public String getTvShowName() {
-			return tvShowName;
-		}
-		public void setTvShowName(String tvShowName) {
-			this.tvShowName = tvShowName;
-		}
-		public String getSeason() {
-			return season;
-		}
-		public void setSeason(String season) {
-			this.season = season;
-		}
-		public String getTvShowAndSeason() {
-			return tvShowAndSeason;
-		}
-		public void setTvShowAndSeason(String tvShowAndSeason) {
-			this.tvShowAndSeason = tvShowAndSeason;
-		}
-		public File getCurrentFile() {
-			return currentFile;
-		}
-		
-	}
-	/*
-	private Map<String,> findSeasonEpisode(String nameToSearch) {
-		Assert.notNull(nameToSearch);
-        LOGGER.debug("Find season and episode in:{}", nameToSearch);
-		SeasonEpisode se = null;
-		Matcher matcher = normalPattern.matcher(nameToSearch);
-		if(matcher.find() && matcher.groupCount() >=2) {
-			se = new SeasonEpisode();
-			se.setSeason(Integer.parseInt(matcher.group(1),10));
-			se.setEpisode(Integer.parseInt(matcher.group(2),10));
-			
-        } else {
-            String[] showNameAsArray = StringUtils.split(nameToSearch);
-            for (String token : showNameAsArray) {
-                Integer sAndE = null;
-                try {
-                    sAndE = Integer.parseInt(token);
-                } catch (NumberFormatException e) {
-                    LOGGER.debug("Not the Saison and the Episode " + token);
-                }
-                if (sAndE != null) {
-                    se = new SeasonEpisode();
-                    se.setSeason(0);
-                    se.setEpisode(sAndE);
-                    break;
+public class TvShowArranger {
+    Pattern normalPattern = Pattern.compile("s(\\d{1,2})e(\\d{1,2})");
+    Pattern seasonCrossEpPattern = Pattern.compile("(\\d{1,2})x(\\d{1,2})");
+    Pattern epOnlyPattern = Pattern.compile(" (\\d{1,3})");
+    Pattern _epOnlyPattern = Pattern.compile("_(\\d{1,3})");
+
+    public void arrange(String[] dirs) {
+
+        Map<String, List<File>> arrangeMap = new HashMap<>();
+        for (String rootDir : dirs) {
+            File currentDir = new File(rootDir);
+            Map<String, List<File>> tempArrangeMap = getMapOfFiles(currentDir, arrangeMap);
+            String rootBaseDir = rootDir;
+
+            for (Map.Entry<String, List<File>> tempArrangeMapEntry : tempArrangeMap.entrySet()) {
+                String key = tempArrangeMapEntry.getKey();
+                String brutTvShowName = StringUtils.substringBefore(key, "#");
+                String brutTvShowNameAndSeason = StringUtils.replace(key, "#", ".S");
+                String tvShowDir = formatTvShowName(brutTvShowName);
+                String tvShowAndSeasonDir = formatTvShowName(brutTvShowNameAndSeason);
+                String newDirName = rootBaseDir + File.separator + tvShowDir + File.separator + tvShowAndSeasonDir;
+                for (File srcFile : tempArrangeMapEntry.getValue()) {
+                    String destFileName = newDirName + File.separator + srcFile.getName();
+                    File destFile = new File(destFileName);
+                    System.out.println("moving  ... to " + destFileName);
+                    boolean rename = srcFile.renameTo(destFile);
+                    if (!rename) {
+                        try {
+                            FileUtils.moveFile(srcFile, destFile);
+                        } catch (IOException e) {
+                            System.err.println(e.getMessage());
+                        }
+                    }
                 }
             }
-		}
-		return se;
-	}*/
-	
-	private boolean downloadIsfinished(String downloadDirectoryName) {
-		boolean isDownloaded;
-		int index = 0;
-		int MAX = 3 * 60;
-		do {
-			isDownloaded = isDownloding(downloadDirectoryName);
-			index++;
-		} while (isDownloaded == true || index == MAX);
-		
-		if (index <= MAX)
-			return true;
-		else
-			return false;
-	}
-	
-	private boolean isDownloding(String downloadDirectoryName) {
-		File downloadDirectory = new File(downloadDirectoryName);
-		if (!downloadDirectory.isFile() && !downloadDirectory.isDirectory())
-			throw new RuntimeException(downloadDirectoryName + " Is not a valide directory");
+        }
+    }
 
-		Map<String, Long> firstDirContentParsing = dirContentToMap(downloadDirectory);
+    private String formatTvShowName(String brutTvShowNameAndSeason) {
+        brutTvShowNameAndSeason = StringUtils.replace(brutTvShowNameAndSeason, ".", " ");
+        StringBuilder sb = new StringBuilder();
+        String[] tab = StringUtils.split(brutTvShowNameAndSeason, " ");
+        for (int i = 0; i < tab.length; i++) {
+            String name = tab[i];
+            sb.append(StringUtils.capitalize(name));
+            if (i != (tab.length - 1)) {
+                sb.append(".");
+            }
+        }
+        String tvShowDir = sb.toString();
+        return tvShowDir;
+    }
 
-		// Wait for 1 minute
-		try {
-			Thread.sleep(60000l);
-		} catch (InterruptedException e) {
-			System.out.println("cannot wait during " + 60000l);
-		}
-		Map<String, Long> anotherDirContentParsing = dirContentToMap(downloadDirectory);
+    protected Map<String, List<File>> getMapOfFiles(File currentDir, Map<String, List<File>> arrangeMap) {
+        if (currentDir.isDirectory()) {
+            for (File tvShowDir : currentDir.listFiles()) {
+                if (!tvShowDir.isDirectory()) {
+                    manageOneFile(tvShowDir, arrangeMap);
+                } else {
+                    arrangeMap.putAll(getMapOfFiles(tvShowDir, arrangeMap));
+                }
+            }
+        } else {
+            manageOneFile(currentDir, arrangeMap);
+        }
+        return arrangeMap;
 
-		int initialSize = firstDirContentParsing.size();
+    }
 
-		int anotherSize = anotherDirContentParsing.size();
-		boolean isSame;
-		if (initialSize == anotherSize) {
-			isSame = firstDirContentParsing.equals(anotherDirContentParsing);
-		} else {
-			isSame = false;
-		}
-		return isSame ? false : true;
+    private void manageOneFile(File currentDir, Map<String, List<File>> arrangeMap) {
+        String fileName = currentDir.getName();
+        String lowerFileName = StringUtils.lowerCase(fileName);
 
-	}
+        Matcher normalMatcher = normalPattern.matcher(lowerFileName);
+        Matcher seasonCroosEpMatcher = seasonCrossEpPattern.matcher(lowerFileName);
+        Matcher epOnlyMatcher = epOnlyPattern.matcher(lowerFileName);
+        Matcher _epOnlyMatcher = _epOnlyPattern.matcher(lowerFileName);
+        String tvShowName;
+        String season;
+        String episode;
+        boolean normalMGroup = normalMatcher.groupCount() >= 2;
+        boolean normalFinder = normalMatcher.find();
+        if (normalFinder && normalMGroup) {
+            String test = normalMatcher.group();
+            season = normalMatcher.group(1);
+            episode = normalMatcher.group(2);
+            tvShowName = StringUtils.substringBefore(lowerFileName, "s" + season);
+            if (tvShowName.endsWith(".")) {
+                tvShowName = StringUtils.removeEnd(tvShowName, ".");
+            }
+        } else {
+            boolean seasonCroosEpFind = seasonCroosEpMatcher.find();
+            boolean seasonCroosEpGroup = seasonCroosEpMatcher.groupCount() >= 2;
+            if (seasonCroosEpFind && seasonCroosEpGroup) {
+                season = seasonCroosEpMatcher.group(1);
+                episode = seasonCroosEpMatcher.group(2);
+                tvShowName = StringUtils.substringBefore(lowerFileName, season);
+            } else {
+                boolean epOnlyFind = epOnlyMatcher.find();
+                boolean epOnlyGroup = epOnlyMatcher.groupCount() >= 2;
+                if (epOnlyFind) {
+                    System.out.println(lowerFileName + "  matched with   " + epOnlyPattern);
+                    season = "01";
+                    episode = epOnlyMatcher.group(1);
+                    tvShowName = StringUtils.substringBefore(lowerFileName, episode);
+                } else if (_epOnlyMatcher.find()) {
+                    System.out.println(lowerFileName + "  matched with   " + _epOnlyPattern);
+                    season = "01";
+                    episode = _epOnlyMatcher.group(1);
+                    tvShowName = StringUtils.substringBefore(lowerFileName, episode);
+                } else {
+                    season = "";
+                    episode = null;
+                    tvShowName = "MOVIES";
+                }
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(tvShowName).append("#").append(season);
+        String tvShowAndSeason = sb.toString();
+        List<File> multimediaFiles = arrangeMap.get(tvShowAndSeason);
+        if (multimediaFiles == null) {
+            multimediaFiles = new ArrayList<>();
+            arrangeMap.put(tvShowAndSeason, multimediaFiles);
+        }
+        multimediaFiles.add(currentDir);
+    }
 
-	
-	
-	
-
-	private Map<String, Long> dirContentToMap(File downloadDirectory) {
-		Map<String, Long> dirContentParsing = new HashMap<>();
-		for (File contentFile : downloadDirectory.listFiles()) {
-			try {
-				dirContentParsing.put(contentFile.getCanonicalPath(), contentFile.lastModified());
-			} catch (IOException e) {
-				System.out.println("cannot get cannonicalPath of " + contentFile);
-			}
-		}
-		return dirContentParsing;
-	}
 }

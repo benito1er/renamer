@@ -15,29 +15,36 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
+import com.benito.dalmeida.app.arrange.TvShowArranger;
 import com.benito.dalmeida.app.rename.FileRenamer;
 
 public class RemoveBadWordMainClass {
-
+	private static final Log LOGGER = LogFactory.getLog(RemoveBadWordMainClass.class);
+	
     public static void main(final String[] argrs) {
         final String[] rootDirectories = { /* "Y:" + FileRenamer.fileSeparator + "Téléchargements", */
                "J:" + FileRenamer.fileSeparator + "Movies",
-
+                "Y:" + FileRenamer.fileSeparator + "Téléchargé",
                 "Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "TVShows",
                 "Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "TVShows Archived",
+                "Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "Manga",
                 "Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "Movies"+ FileRenamer.fileSeparator+"MyMovies",
                 "Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "Movies" + FileRenamer.fileSeparator + "To_Import",
 
                 "Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "Animations",
-                "Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "Manga",
                 "Z:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "TVShows Archived",
                 "Z:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "XXX_Adult" };
         final FileRenamer rename = new FileRenamer(rootDirectories);
 
         renameDownloadedFile(rename);
-
+        String [] sampleDirs = {"Y:" + FileRenamer.fileSeparator + "Téléchargé"};
+        TvShowArranger tvShowArranger =  new TvShowArranger();
+        tvShowArranger.arrange(sampleDirs);
         System.out.println("fini");
+        
     }
 
     private static void renameDownloadedFile(final FileRenamer rename) {
