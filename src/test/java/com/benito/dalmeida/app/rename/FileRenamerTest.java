@@ -5,10 +5,11 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import junit.framework.Assert;
-
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
+
+import junit.framework.Assert;
 
 public class FileRenamerTest {
 
@@ -46,4 +47,9 @@ public class FileRenamerTest {
         fileRenamer.renameOneFile(testFile, wordToRemoves);
     }
 
+    @Test
+    public void testFuzzy() {
+        final int distance = StringUtils.getLevenshteinDistance("[cpasbien.com]", "[ceasbien.com]");
+        System.out.println(distance);
+    }
 }
