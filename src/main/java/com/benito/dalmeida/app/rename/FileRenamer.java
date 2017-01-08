@@ -22,6 +22,7 @@ public class FileRenamer {
 
     public void rename(final List<String> wordsToRemoves) throws IOException {
         for (final String directoryPath : rootDirectories) {
+            try{
             System.out.println("start renaming file in " + directoryPath);
             final File rootDirectory = new File(directoryPath);
             final String rootDirectoryName = rootDirectory.getCanonicalPath();
@@ -38,6 +39,9 @@ public class FileRenamer {
                 }
             }
             System.out.println("ENd");
+            } catch (Exception e) {
+                System.err.println(e);
+            }
         }
 
     }
@@ -46,6 +50,7 @@ public class FileRenamer {
         final boolean skipable = StringUtils.containsIgnoreCase(rootDirectoryName, fileSeparator + ".")
                 || StringUtils.containsIgnoreCase(rootDirectoryName, fileSeparator + "$RECYCLE.BIN")
                 || StringUtils.containsIgnoreCase(rootDirectoryName, fileSeparator + "MyCinemaData")
+                || StringUtils.containsIgnoreCase(rootDirectoryName, fileSeparator + ".@__thumb")
                 || StringUtils.containsIgnoreCase(rootDirectoryName, fileSeparator + trashDir);
         return skipable;
     }
@@ -56,6 +61,10 @@ public class FileRenamer {
         final File newFile = new File(realNewFileName);
         boolean result = file.renameTo(newFile);
         boolean trashable = false;
+        File parentFile = newFile.getParentFile();
+        if (!parentFile.exists()) {
+            parentFile.mkdirs();
+        }
         if (!result) {
             try {
                 FileUtils.moveFile(file, newFile);
@@ -70,8 +79,9 @@ public class FileRenamer {
             }
             result = trashable ? true : newFile.exists();
             if (!result) {
+
                 try {
-                    FileUtils.moveToDirectory(file, newFile.getParentFile(), false);
+                    FileUtils.moveToDirectory(file, parentFile, false);
                 } catch (final Exception e) {
 
                     System.out.println(e);
@@ -80,7 +90,7 @@ public class FileRenamer {
                             || StringUtils.containsIgnoreCase(errorMessage, "is a directory")
                             || StringUtils.containsIgnoreCase(errorMessage, "is not a directory")) {
                         try {
-                            FileUtils.moveFileToDirectory(file, newFile.getParentFile(), true);
+                            FileUtils.moveFileToDirectory(file, parentFile, true);
                         } catch (final Exception ee) {
 
                             System.out.println(ee);

@@ -26,13 +26,16 @@ public class RemoveBadWordMainClass {
 	
     public static void main(final String[] argrs) {
         final String[] rootDirectories = { /* "Y:" + FileRenamer.fileSeparator + "Téléchargements", */
-               "J:" + FileRenamer.fileSeparator + "Movies",
+                "K:" + FileRenamer.fileSeparator + "Movies",
+                "J:" + FileRenamer.fileSeparator + "Movies",
                 "Y:" + FileRenamer.fileSeparator + "Téléchargé",
                 "Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "TVShows",
                 "Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "TVShows Archived",
                 "Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "Manga",
                 "Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "Movies"+ FileRenamer.fileSeparator+"MyMovies",
                 "Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "Movies" + FileRenamer.fileSeparator + "To_Import",
+                "V:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "Movies" + FileRenamer.fileSeparator + "MyMovies",
+                "V:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "Movies" + FileRenamer.fileSeparator + "To_Import",
 
                 "Y:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "Animations",
                 "Z:" + FileRenamer.fileSeparator + "Videos" + FileRenamer.fileSeparator + "TVShows Archived",

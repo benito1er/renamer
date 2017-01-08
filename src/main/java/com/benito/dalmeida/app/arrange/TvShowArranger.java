@@ -34,6 +34,9 @@ public class TvShowArranger {
                 String tvShowAndSeasonDir = formatTvShowName(brutTvShowNameAndSeason);
                 String newDirName = rootBaseDir + File.separator + tvShowDir + File.separator + tvShowAndSeasonDir;
                 for (File srcFile : tempArrangeMapEntry.getValue()) {
+                    File destDirFile = new File(newDirName);
+                    if (!destDirFile.exists())
+                        destDirFile.mkdirs();
                     String destFileName = newDirName + File.separator + srcFile.getName();
                     File destFile = new File(destFileName);
                     System.out.println("moving  ... to " + destFileName);
@@ -137,7 +140,23 @@ public class TvShowArranger {
             multimediaFiles = new ArrayList<>();
             arrangeMap.put(tvShowAndSeason, multimediaFiles);
         }
-        multimediaFiles.add(currentDir);
+        try {
+            multimediaFiles.add(manageOnePiece(currentDir, episode));
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+    }
+
+    private File manageOnePiece(File currentDir, String episode) throws IOException {
+        String lowerFileName = StringUtils.lowerCase(currentDir.getCanonicalPath());
+        String fileName = currentDir.getCanonicalPath();
+        if (StringUtils.containsIgnoreCase(lowerFileName, "one") && StringUtils.containsIgnoreCase(lowerFileName, "piece")) {
+            File destFile = new File(StringUtils.replace(fileName, episode, "E" + episode));
+            FileUtils.moveFile(currentDir, destFile);
+            return destFile;
+        } else {
+            return currentDir;
+        }
     }
 
 }
