@@ -15,14 +15,219 @@ import org.apache.commons.lang.StringUtils;
 public class TvShowArranger {
     Pattern normalPattern = Pattern.compile("s(\\d{1,2})e(\\d{1,2})");
     Pattern seasonCrossEpPattern = Pattern.compile("(\\d{1,2})x(\\d{1,2})");
-    Pattern epOnlyPattern = Pattern.compile(" (\\d{1,3})");
+    Pattern spaceEpOnlyPattern = Pattern.compile(" (\\d{1,3})");
     Pattern _epOnlyPattern = Pattern.compile("_(\\d{1,3})");
+    Pattern eEpOnlyPattern = Pattern.compile("_e(\\d{1,3})");
+    Pattern dotSeasonEpPattern = Pattern.compile("\\p{Punct}(\\d{1,3})\\p{Punct}");
+    Pattern onePiecePattern = Pattern.compile("(one)*(piece)*(\\d{1,3})");
 
+
+    private void manageOneFile(File currentDir, Map<String, List<File>> arrangeMap) {
+        String fileName = currentDir.getName();
+        String lowerFileName = StringUtils.lowerCase(fileName);
+
+        Matcher normalMatcher = normalPattern.matcher(lowerFileName);
+        Matcher seasonCroosEpMatcher = seasonCrossEpPattern.matcher(lowerFileName);
+        Matcher spaceEpOnlyMatcher = spaceEpOnlyPattern.matcher(lowerFileName);
+        Matcher eEpOnlyPatternMatcher = eEpOnlyPattern.matcher(lowerFileName);
+        Matcher _epOnlyMatcher = _epOnlyPattern.matcher(lowerFileName);
+        Matcher dotSeasonEpPatternMatcher = dotSeasonEpPattern.matcher(lowerFileName);
+        Matcher onePiecePatternMatcher = onePiecePattern.matcher(lowerFileName);
+        String tvShowName;
+        String season;
+        String episode;
+        if (isOnePieceFile(lowerFileName)) {
+            String numbers = lowerFileName.replaceAll("\\D+", " ");
+            episode = StringUtils.split(numbers, " ")[0];
+            season = getOnePieceSeason(fileName, episode);
+            tvShowName = "One.Piece";
+        } else  if (isDragonBallSuper(lowerFileName)) {
+            String numbers = lowerFileName.replaceAll("\\D+", " ");
+            episode = StringUtils.split(numbers, " ")[0];
+            season = getDragonBallSuperSeason(fileName, episode);
+            tvShowName = "Dragon.Ball.Super";
+        }  else  if (isBorutoFile(lowerFileName)) {
+            String numbers = lowerFileName.replaceAll("\\D+", " ");
+            episode = StringUtils.split(numbers, " ")[0];
+            season = getBorutoSeason(fileName, episode);
+            tvShowName = "Dragon.Ball.Super";
+        } else if (normalMatcher.groupCount() >= 2 && normalMatcher.find()) {
+            season = normalMatcher.group(1);
+            episode = normalMatcher.group(2);
+            tvShowName = StringUtils.substringBefore(lowerFileName, "s" + season);
+            if (tvShowName.endsWith(".")) {
+                tvShowName = StringUtils.removeEnd(tvShowName, ".");
+            }
+        } else if (seasonCroosEpMatcher.find() && seasonCroosEpMatcher.groupCount() >= 2) {
+            System.out.println(lowerFileName + "  matched with   " + seasonCrossEpPattern);
+            season = seasonCroosEpMatcher.group(1);
+            episode = seasonCroosEpMatcher.group(2);
+            tvShowName = StringUtils.substringBefore(lowerFileName, season);
+        } else if (_epOnlyMatcher.find() && _epOnlyMatcher.groupCount() >= 1) {
+            System.out.println(lowerFileName + "  matched with   " + _epOnlyPattern);
+            season = "01";
+            episode = _epOnlyMatcher.group(1);
+            tvShowName = StringUtils.substringBefore(lowerFileName, episode);
+        } else if (eEpOnlyPatternMatcher.find() && eEpOnlyPatternMatcher.groupCount() >= 1) {
+            System.out.println(lowerFileName + "  matched with   " + eEpOnlyPattern);
+            season = "01";
+            episode = eEpOnlyPatternMatcher.group(1);
+            tvShowName = StringUtils.substringBefore(lowerFileName, episode);
+        } else if (spaceEpOnlyMatcher.find() && spaceEpOnlyMatcher.groupCount() >= 1) {
+
+            System.out.println(lowerFileName + "  matched with   " + spaceEpOnlyPattern);
+            String temp = spaceEpOnlyMatcher.group(1);
+            episode = temp.length() > 2 ? temp.substring(temp.length() - 2, temp.length()) : temp;
+            season = StringUtils.isNotBlank(StringUtils.substringBefore(temp, episode)) ? StringUtils.substringBefore(temp, episode) : "S01";
+            tvShowName = StringUtils.substringBefore(lowerFileName, episode);
+        } else if (dotSeasonEpPatternMatcher.find() && dotSeasonEpPatternMatcher.groupCount() >= 1) {
+            System.out.println(lowerFileName + "  matched with   " + dotSeasonEpPattern);
+            String temp = dotSeasonEpPatternMatcher.group(1);
+            int beginIndex = temp.length() - 2;
+            if (beginIndex > 0) {
+                episode = temp.substring(beginIndex, temp.length());
+                season = StringUtils.substringBefore(temp, episode);
+                tvShowName = StringUtils.substringBefore(lowerFileName, season + episode);
+                season = "0" + season;
+            } else {
+                season = "";
+                episode = null;
+                tvShowName = "MOVIES";
+            }
+        } else {
+            season = "";
+            episode = null;
+            tvShowName = "MOVIES";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(tvShowName).append("#").append(season);
+        String tvShowAndSeason = sb.toString();
+        List<File> multimediaFiles = arrangeMap.get(tvShowAndSeason);
+        if (multimediaFiles == null) {
+            multimediaFiles = new ArrayList<>();
+            arrangeMap.put(tvShowAndSeason, multimediaFiles);
+        }
+        multimediaFiles.add(currentDir);
+
+    }
+
+    private String getDragonBallSuperSeason(String fileName, String episode) {
+        String season = "";
+        if (!isDragonBallSuper(fileName)) {
+            return season;
+        }
+        Integer ep = Integer.parseInt(episode);ah ok
+
+        if (ep < 15) {
+            season = "01";
+        } else if (ep < 28) {
+            season = "02";
+        } else if (ep < 47) {
+            season = "03";
+        } else if (ep < 77) {
+            season = "04";
+        } else {
+            season = "05";
+        }
+        return season;
+    }
+
+    private boolean isDragonBallSuper(String lowerFileName) {
+        if(StringUtils.containsIgnoreCase(lowerFileName, "DBS") || StringUtils.containsIgnoreCase(lowerFileName, "DBSuper"))
+            return true;
+        if(StringUtils.containsIgnoreCase(lowerFileName, "Dragon") && StringUtils.containsIgnoreCase(lowerFileName, "ball") && StringUtils.containsIgnoreCase(lowerFileName, "super"))
+            return true;
+        return false;
+    }
+
+    private String getOnePieceSeason(String fileName, String episode) {
+        String season = "";
+        if (!isOnePieceFile(fileName)) {
+            return season;
+        }
+        Integer ep = Integer.parseInt(episode);
+
+         if (ep < 9) {
+            season = "01";
+        } else if (ep < 31) {
+            season = "02";
+        } else if (ep < 48) {
+            season = "03";
+        } else if (ep < 61) {
+            season = "04";
+        } else if (ep < 70) {
+            season = "05";
+        } else if (ep < 92) {
+            season = "06";
+        } else if (ep < 131) {
+            season = "07";
+        } else if (ep < 144) {
+            season = "08";
+        } else if (ep < 196) {
+            season = "09";
+        } else if (ep < 227) {
+            season = "10";
+        } else if (ep < 326) {
+            season = "11";
+        } else if (ep < 382) {
+            season = "12";
+        } else if (ep < 482) {
+            season = "13";
+        } else if (ep < 517) {
+            season = "14";
+        } else if (ep < 579) {
+            season = "15";
+        } else if (ep < 629) {
+            season = "16";
+        } else if (ep < 747) {
+            season = "17";
+        } else if (ep < 780) {
+            season = "18";
+        } else if (ep < 878) {
+            season = "19";
+        } else if (ep < 982) {
+            season = "20";
+        } else {
+            season = "21";
+        }
+
+
+        return season;
+
+    }
+
+
+    private boolean isOnePieceFile(String lowerFileName) {
+        if (StringUtils.containsIgnoreCase(lowerFileName, "one") && StringUtils.containsIgnoreCase(lowerFileName, "piece"))
+            return true;
+        else
+            return false;
+    }
+
+    private boolean isBorutoFile(String lowerFileName) {
+        if (StringUtils.containsIgnoreCase(lowerFileName, "boruto") && StringUtils.containsIgnoreCase(lowerFileName, "next"))
+            return true;
+        else
+            return false;
+    }
+    private String getBorutoSeason(String fileName, String episode){
+        String season = "";
+        if (!isBorutoFile(fileName)) {
+            return season;
+        }
+        Integer ep = Integer.parseInt(episode);
+        if (ep < 160) {
+            season = "01";
+        }
+        return season;
+    }
     public void arrange(String[] dirs) {
 
-        Map<String, List<File>> arrangeMap = new HashMap<>();
+
         for (String rootDir : dirs) {
             File currentDir = new File(rootDir);
+            Map<String, List<File>> arrangeMap = new HashMap<>();
             Map<String, List<File>> tempArrangeMap = getMapOfFiles(currentDir, arrangeMap);
             String rootBaseDir = rootDir;
 
@@ -70,93 +275,19 @@ public class TvShowArranger {
 
     protected Map<String, List<File>> getMapOfFiles(File currentDir, Map<String, List<File>> arrangeMap) {
         if (currentDir.isDirectory()) {
-            for (File tvShowDir : currentDir.listFiles()) {
-                if (!tvShowDir.isDirectory()) {
-                    manageOneFile(tvShowDir, arrangeMap);
-                } else {
-                    arrangeMap.putAll(getMapOfFiles(tvShowDir, arrangeMap));
+            if (currentDir.listFiles() != null)
+                for (File tvShowDir : currentDir.listFiles()) {
+                    if (!tvShowDir.isDirectory()) {
+                        manageOneFile(tvShowDir, arrangeMap);
+                    } else {
+                        arrangeMap.putAll(getMapOfFiles(tvShowDir, arrangeMap));
+                    }
                 }
-            }
         } else {
             manageOneFile(currentDir, arrangeMap);
         }
         return arrangeMap;
 
-    }
-
-    private void manageOneFile(File currentDir, Map<String, List<File>> arrangeMap) {
-        String fileName = currentDir.getName();
-        String lowerFileName = StringUtils.lowerCase(fileName);
-
-        Matcher normalMatcher = normalPattern.matcher(lowerFileName);
-        Matcher seasonCroosEpMatcher = seasonCrossEpPattern.matcher(lowerFileName);
-        Matcher epOnlyMatcher = epOnlyPattern.matcher(lowerFileName);
-        Matcher _epOnlyMatcher = _epOnlyPattern.matcher(lowerFileName);
-        String tvShowName;
-        String season;
-        String episode;
-        boolean normalMGroup = normalMatcher.groupCount() >= 2;
-        boolean normalFinder = normalMatcher.find();
-        if (normalFinder && normalMGroup) {
-            String test = normalMatcher.group();
-            season = normalMatcher.group(1);
-            episode = normalMatcher.group(2);
-            tvShowName = StringUtils.substringBefore(lowerFileName, "s" + season);
-            if (tvShowName.endsWith(".")) {
-                tvShowName = StringUtils.removeEnd(tvShowName, ".");
-            }
-        } else {
-            boolean seasonCroosEpFind = seasonCroosEpMatcher.find();
-            boolean seasonCroosEpGroup = seasonCroosEpMatcher.groupCount() >= 2;
-            if (seasonCroosEpFind && seasonCroosEpGroup) {
-                season = seasonCroosEpMatcher.group(1);
-                episode = seasonCroosEpMatcher.group(2);
-                tvShowName = StringUtils.substringBefore(lowerFileName, season);
-            } else {
-                boolean epOnlyFind = epOnlyMatcher.find();
-                boolean epOnlyGroup = epOnlyMatcher.groupCount() >= 2;
-                if (epOnlyFind) {
-                    System.out.println(lowerFileName + "  matched with   " + epOnlyPattern);
-                    season = "01";
-                    episode = epOnlyMatcher.group(1);
-                    tvShowName = StringUtils.substringBefore(lowerFileName, episode);
-                } else if (_epOnlyMatcher.find()) {
-                    System.out.println(lowerFileName + "  matched with   " + _epOnlyPattern);
-                    season = "01";
-                    episode = _epOnlyMatcher.group(1);
-                    tvShowName = StringUtils.substringBefore(lowerFileName, episode);
-                } else {
-                    season = "";
-                    episode = null;
-                    tvShowName = "MOVIES";
-                }
-            }
-        }
-        StringBuilder sb = new StringBuilder();
-        sb.append(tvShowName).append("#").append(season);
-        String tvShowAndSeason = sb.toString();
-        List<File> multimediaFiles = arrangeMap.get(tvShowAndSeason);
-        if (multimediaFiles == null) {
-            multimediaFiles = new ArrayList<>();
-            arrangeMap.put(tvShowAndSeason, multimediaFiles);
-        }
-        try {
-            multimediaFiles.add(manageOnePiece(currentDir, episode));
-        } catch (IOException e) {
-            System.err.println(e);
-        }
-    }
-
-    private File manageOnePiece(File currentDir, String episode) throws IOException {
-        String lowerFileName = StringUtils.lowerCase(currentDir.getCanonicalPath());
-        String fileName = currentDir.getCanonicalPath();
-        if (StringUtils.containsIgnoreCase(lowerFileName, "one") && StringUtils.containsIgnoreCase(lowerFileName, "piece")) {
-            File destFile = new File(StringUtils.replace(fileName, episode, "E" + episode));
-            FileUtils.moveFile(currentDir, destFile);
-            return destFile;
-        } else {
-            return currentDir;
-        }
     }
 
 }

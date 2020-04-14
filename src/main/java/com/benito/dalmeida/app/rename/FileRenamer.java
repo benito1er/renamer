@@ -111,7 +111,7 @@ public class FileRenamer {
                 || StringUtils.containsIgnoreCase(errorMessage, "is not a directory")
                 || StringUtils.containsIgnoreCase(errorMessage, "directory cannot be")) {
             final String oldFileName = file.getCanonicalPath();
-            String tempSubDirectory = new String(oldFileName);
+            String tempSubDirectory = new String(StringUtils.substringBeforeLast(oldFileName,"."));
             for (final String rootName : rootDirectories) {
                 if (StringUtils.containsIgnoreCase(tempSubDirectory, rootName)) {
                     tempSubDirectory = StringUtils.substringAfter(tempSubDirectory, rootName);
