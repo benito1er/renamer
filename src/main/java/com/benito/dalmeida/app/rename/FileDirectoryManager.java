@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class FileDirectoryManager {
     public void removeEmptyDirectory(final String directoryPath, final String removableBufferDirPath)

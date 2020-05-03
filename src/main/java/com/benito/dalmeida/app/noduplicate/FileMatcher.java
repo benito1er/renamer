@@ -2,7 +2,7 @@ package com.benito.dalmeida.app.noduplicate;
 
 import java.util.Date;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class FileMatcher {
 

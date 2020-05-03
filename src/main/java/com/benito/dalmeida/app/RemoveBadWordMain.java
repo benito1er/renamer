@@ -5,103 +5,33 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 
-import org.apache.commons.lang.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import com.benito.dalmeida.app.arrange.TvShowArranger;
 import com.benito.dalmeida.app.rename.FileRenamer;
 
 public class RemoveBadWordMain {
     private static final Log LOGGER = LogFactory.getLog(RemoveBadWordMain.class);
 
-   private static final String TO_IMPORT = "To_Import";
-   private static final String MANGA = "Manga";
-
-   private static final String MOVIES = "Movies";
-   private static final String VIDEOS_DIR = "Videos";
-   private static final String TVSHOWS = "TVShows";
-   private static final String TVSHOWS_ARCHIVED = "TVShows Archived";
-   private static final String MY_MOVIES = "MyMovies";
-    public static final String TÉLÉCHARGÉ = "Téléchargé";
-    public static final String TÉLÉCHARGEMENTS = "Téléchargements";
 
     public static void main(final String[] argrs) {
+        LinkedHashSet<String> directories = new LinkedHashSet<>();
+        directories.addAll(Arrays.asList(Constant.DOWNLOAD_DIR));
+        directories.addAll(Arrays.asList(Constant.CONTENT_DIRECTORIES));
 
-        final String[] rootDirectories = { /* "Y:" + FileRenamer.fileSeparator + "Téléchargements", */
-                //"K:" + FileRenamer.fileSeparator + "Movies",
-                "J:" + FileRenamer.fileSeparator + MOVIES,
-                "G:" + FileRenamer.fileSeparator + MOVIES,
-                "H:" + FileRenamer.fileSeparator + MOVIES,
-                "Y:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
-                "Z:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
-                "V:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
-                "W:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
-                "W:" + FileRenamer.fileSeparator + TÉLÉCHARGEMENTS,
-                "T:" + FileRenamer.fileSeparator + "Telechargement",
-
-                "Y:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS,
-                "Y:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS_ARCHIVED,
-                "Y:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MANGA,
-                "Y:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MOVIES + FileRenamer.fileSeparator+ MY_MOVIES,
-                "Y:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MOVIES + FileRenamer.fileSeparator + TO_IMPORT,
-                "Y:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + "Animations",
-                "Y:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + "AnimationsMovies",
-                "Y:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + "AnimationsTvShows",
-
-                "V:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS,
-                "V:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS_ARCHIVED,
-                "V:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MANGA,
-                "V:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MOVIES + FileRenamer.fileSeparator+ MY_MOVIES,
-                "V:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MOVIES + FileRenamer.fileSeparator + TO_IMPORT,
-
-                "W:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS,
-                "W:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS_ARCHIVED,
-
-                "W:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MANGA,
-
-                "W:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MOVIES + FileRenamer.fileSeparator+ MY_MOVIES,
-                "W:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MOVIES + FileRenamer.fileSeparator + TO_IMPORT,
-
-                "Z:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS,
-                "Z:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS_ARCHIVED,
-                "Z:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MANGA,
-                "Z:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MOVIES + FileRenamer.fileSeparator+ MY_MOVIES,
-                "Z:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MOVIES + FileRenamer.fileSeparator + TO_IMPORT,
-
-                 // "T:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + "XXX_Adult" ,
-                "Z:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS_ARCHIVED,
-                 //"T:" + FileRenamer.fileSeparator + "torrents"
-
-        };
+        String[] rootDirectories = directories.stream().toArray(String[]::new);
         final FileRenamer rename = new FileRenamer(rootDirectories);
-
-        renameDownloadedFile(rename);
-        String [] sampleDirs = {"Y:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
-                "Y:" + FileRenamer.fileSeparator + "Téléchargé",
-                "Y:" + FileRenamer.fileSeparator + TÉLÉCHARGEMENTS ,
-                "T:" + FileRenamer.fileSeparator + "Telechargement",
-                "Y:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
-                "Z:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
-                "V:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
-                "W:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
-                // "T:"+ FileRenamer.fileSeparator+"torrents"+ FileRenamer.fileSeparator + "_old"
-                //"W:"+ FileRenamer.fileSeparator +"Videos"+ FileRenamer.fileSeparator +"Manga"+ FileRenamer.fileSeparator +"Dragon.Ball.Super",
-                //"T:"+ FileRenamer.fileSeparator+"Videos"+ FileRenamer.fileSeparator+"XXX_Adult"+ FileRenamer.fileSeparator+"Hentai"
-        };
-        TvShowArranger tvShowArranger =  new TvShowArranger();
-        tvShowArranger.arrange(sampleDirs);
+        TvShowArranger tvShowArranger = new TvShowArranger();
+        for (int i = 0; i < 2; i++) {
+            renameDownloadedFile(rename);
+            tvShowArranger.arrange(Constant.DOWNLOAD_DIR);
+        }
         LOGGER.debug("fini");
-        
+
     }
 
     private static void renameDownloadedFile(final FileRenamer rename) {

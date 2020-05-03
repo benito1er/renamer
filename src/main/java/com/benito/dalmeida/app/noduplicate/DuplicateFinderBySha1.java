@@ -21,7 +21,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.benito.dalmeida.app.rename.FileRenamer;
 
@@ -118,7 +118,7 @@ public class DuplicateFinderBySha1 {
         }
         final File result = new File(FileRenamer.javaFileTempDir + FileRenamer.fileSeparator + "DuplicateFinder.log");
         try {
-            FileUtils.writeStringToFile(result, sb.toString());
+            FileUtils.writeStringToFile(result, sb.toString(), "ISO-8859-1");
         } catch (final IOException e) {
             System.err.println(e.getMessage());
         }
