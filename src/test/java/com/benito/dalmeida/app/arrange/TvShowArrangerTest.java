@@ -21,7 +21,7 @@ public class TvShowArrangerTest {
 	
 	@Test
 	public void testArrange(){
-		String [] sampleDirs = {"W://Téléchargé"};
+		String [] sampleDirs = {"W:\\Téléchargé\\One.Piece\\One.Piece.S01"};
 		tvShowArranger.arrange(sampleDirs);
 	}
 }

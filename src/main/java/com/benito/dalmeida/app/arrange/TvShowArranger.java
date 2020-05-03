@@ -77,8 +77,9 @@ public class TvShowArranger {
                     }
 
                     episode = StringUtils.split(numbers, " ")[0];
+                    season = getOnePieceSeason(fileName, episode);
                 }
-                season = getOnePieceSeason(fileName, episode);
+
 
             }
         } else if (isDragonBallSuper(lowerFileName)) {
@@ -92,8 +93,9 @@ public class TvShowArranger {
                 if (episode == null) {
                     String numbers = lowerFileName.replaceAll("\\D+", " ");
                     episode = StringUtils.split(numbers, " ")[0];
+                    season = getDragonBallSuperSeason(fileName, episode);
                 }
-                season = getDragonBallSuperSeason(fileName, episode);
+
 
             }
         } else if (isBorutoFile(lowerFileName)) {
@@ -107,8 +109,9 @@ public class TvShowArranger {
                 if (episode == null) {
                     String numbers = lowerFileName.replaceAll("\\D+", " ");
                     episode = StringUtils.split(numbers, " ")[0];
+                    season = getBorutoSeason(fileName, episode);
                 }
-                season = getBorutoSeason(fileName, episode);
+
             }
         } else {
             Set<String> tempFilesPattens = new HashSet<>();
