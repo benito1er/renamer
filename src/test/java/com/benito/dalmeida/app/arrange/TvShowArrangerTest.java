@@ -21,7 +21,7 @@ public class TvShowArrangerTest {
 	
 	@Test
 	public void testArrange(){
-		String [] sampleDirs = {"Y://Téléchargé"};
+		String [] sampleDirs = {"W://Téléchargé"};
 		tvShowArranger.arrange(sampleDirs);
 	}
 }

@@ -13,14 +13,28 @@ import java.util.stream.Collectors;
 
 
 public class TvShowArranger {
+
+    String[] shortPatterns = {
+            "ep(\\d{1,3})",
+            "ep.(\\d{1,3})",
+            " e(\\d{1,3}) ",
+            "_e(\\d{1,3})",
+            "episode (\\d{1,3})",
+            "s(\\d{1,2})e(\\d{1,2})",
+            "(\\d{1,2})x(\\d{1,2})",
+    };
     String[] patterns = {"s(\\d{1,2})e(\\d{1,2})",
+            "s(\\d{1,2}).ep(\\d{1,2})",
+            "s(\\d{1,2}) e(\\d{1,2})",
             "(\\d{1,2})x(\\d{1,2})",
             "s(\\d{1,2})-(\\d{1,2})",
             " (\\d{1,3})",
             "_(\\d{1,3})",
             "_e(\\d{1,3})",
-            "s(\\d{1,2}) - (\\d{1,2})",
-            "\\p{Punct}(\\d{1,3})\\p{Punct}"};
+            "ep(\\d{1,3})",
+            "episode (\\d{1,3})",
+            "s(\\d{1,2}) - (\\d{1,2})"};
+    //"\\p{Punct}(\\d{1,3})\\p{Punct}"};
 //
 //    Pattern normalPattern = Pattern.compile("s(\\d{1,2})e(\\d{1,2})");
 //    Pattern seasonCrossEpPattern = Pattern.compile("(\\d{1,2})x(\\d{1,2})");
@@ -42,34 +56,71 @@ public class TvShowArranger {
 //        Matcher _epOnlyMatcher = _epOnlyPattern.matcher(lowerFileName);
 //        Matcher dotSeasonEpPatternMatcher = dotSeasonEpPattern.matcher(lowerFileName);
 //        Matcher seasonSpace_EpPatternMatcher = seasonSpace_EpPattern.matcher(lowerFileName);
-        String tvShowName=null;
-        String season=null;
-        String episode;
-        System.out.println(lowerFileName + " to matched with  ---> ");
-        if (isOnePieceFile(lowerFileName)) {
-            String numbers = lowerFileName.replaceAll("\\D+", " ");
-            if (StringUtils.isBlank(numbers)) {
-                numbers = "0";
-            }
-            episode = StringUtils.split(numbers, " ")[0];
-            season = getOnePieceSeason(fileName, episode);
-            tvShowName = "One.Piece";
-        } else if (isDragonBallSuper(lowerFileName)) {
-            String numbers = lowerFileName.replaceAll("\\D+", " ");
-            episode = StringUtils.split(numbers, " ")[0];
-            season = getDragonBallSuperSeason(fileName, episode);
-            tvShowName = "Dragon.Ball.Super";
-        } else if (isBorutoFile(lowerFileName)) {
-            String numbers = lowerFileName.replaceAll("\\D+", " ");
-            episode = StringUtils.split(numbers, " ")[0];
-            season = getBorutoSeason(fileName, episode);
-            tvShowName = "Boruto.Naruto.Next.Generations";
-        } else {
+        String tvShowName = null;
+        String season = null;
+        String episode = null;
 
-            List<String>  filesPatterns =      Arrays.asList(patterns).stream().sorted(Comparator.comparingInt(String::length).reversed()).collect(Collectors.toList());
+        //System.out.println(lowerFileName + " to matched with  ---> ");
+        if (isOnePieceFile(lowerFileName)) {
+            tvShowName = "One.Piece";
+            TvShowKnowName tvShowKnowName = new TvShowKnowName(lowerFileName).invoke();
+            season = tvShowKnowName.getSeason();
+            episode = tvShowKnowName.getEpisode();
+
+            if (episode != null && season == null) {
+                season = getOnePieceSeason(fileName, episode);
+            } else {
+                if (episode == null) {
+                    String numbers = lowerFileName.replaceAll("\\D+", " ");
+                    if (StringUtils.isBlank(numbers)) {
+                        numbers = "0";
+                    }
+
+                    episode = StringUtils.split(numbers, " ")[0];
+                }
+                season = getOnePieceSeason(fileName, episode);
+
+            }
+        } else if (isDragonBallSuper(lowerFileName)) {
+            tvShowName = "Dragon.Ball.Super";
+            TvShowKnowName tvShowKnowName = new TvShowKnowName(lowerFileName).invoke();
+            season = tvShowKnowName.getSeason();
+            episode = tvShowKnowName.getEpisode();
+            if (episode != null && season == null) {
+                season = getDragonBallSuperSeason(fileName, episode);
+            } else {
+                if (episode == null) {
+                    String numbers = lowerFileName.replaceAll("\\D+", " ");
+                    episode = StringUtils.split(numbers, " ")[0];
+                }
+                season = getDragonBallSuperSeason(fileName, episode);
+
+            }
+        } else if (isBorutoFile(lowerFileName)) {
+            tvShowName = "Boruto.Naruto.Next.Generations";
+            TvShowKnowName tvShowKnowName = new TvShowKnowName(lowerFileName).invoke();
+            season = tvShowKnowName.getSeason();
+            episode = tvShowKnowName.getEpisode();
+            if (episode != null && season == null) {
+                season = getBorutoSeason(fileName, episode);
+            } else {
+                if (episode == null) {
+                    String numbers = lowerFileName.replaceAll("\\D+", " ");
+                    episode = StringUtils.split(numbers, " ")[0];
+                }
+                season = getBorutoSeason(fileName, episode);
+            }
+        } else {
+            Set<String> tempFilesPattens = new HashSet<>();
+            tempFilesPattens.addAll(Arrays.asList(patterns));
+
+            tempFilesPattens.addAll(Arrays.asList(shortPatterns));
+            List<String> filesPatterns = tempFilesPattens.stream().sorted(Comparator.comparingInt(String::length).reversed()).collect(Collectors.toList());
+            filesPatterns.add("\\p{Punct}(\\d{1,3})\\p{Punct}");
+            PatternInvoker.build(filesPatterns);
             for (String currentPatternValue : filesPatterns) {
                 int nbGroup = StringUtils.countMatches(currentPatternValue, "\\d{");
-                Pattern currentPattern = Pattern.compile(currentPatternValue);
+                Pattern currentPattern = PatternInvoker.get(currentPatternValue);
                 Matcher currentPatternMatcher = currentPattern.matcher(lowerFileName);
                 if (currentPatternMatcher.find() && currentPatternMatcher.groupCount() >= nbGroup) {
                     System.out.println(lowerFileName + "  matched with   " + currentPattern);
@@ -77,12 +128,15 @@ public class TvShowArranger {
                     episode = nbGroup > 1 ? currentPatternMatcher.group(2) : currentPatternMatcher.group(1);
                     season = nbGroup > 1 ? currentPatternMatcher.group(1) : "01";
                     String temp = nbGroup > 1 ? (currentPatternValue.startsWith("s") ? "s" + season : season) : episode;
-                    tvShowName = StringUtils.removeEnd(StringUtils.substringBefore(lowerFileName, temp),".");
+                    tvShowName = StringUtils.removeEnd(StringUtils.substringBefore(lowerFileName, temp), ".");
+                    if(StringUtils.isBlank(tvShowName)){
+                        tvShowName = currentDir.getParent();
+                    }
 
                     break;
                 }
             }
-           if(tvShowName == null ){
+            if (tvShowName == null) {
                 season = "";
                 tvShowName = "MOVIES";
             }
@@ -334,4 +388,40 @@ public class TvShowArranger {
 
     }
 
+    private class TvShowKnowName {
+        private String lowerFileName;
+        private String season;
+        private String episode;
+
+        public TvShowKnowName(String lowerFileName) {
+            this.lowerFileName = lowerFileName;
+        }
+
+        public String getSeason() {
+            return season;
+        }
+
+        public String getEpisode() {
+            return episode;
+        }
+
+        public TvShowKnowName invoke() {
+            List<String> filesPatterns = Arrays.asList(shortPatterns).stream().sorted(Comparator.comparingInt(String::length).reversed()).collect(Collectors.toList());
+            PatternInvoker.build(filesPatterns);
+            for (String currentPatternValue : filesPatterns) {
+                int nbGroup = StringUtils.countMatches(currentPatternValue, "\\d{");
+                Pattern currentPattern = PatternInvoker.get(currentPatternValue);
+                Matcher currentPatternMatcher = currentPattern.matcher(lowerFileName);
+                if (currentPatternMatcher.find() && currentPatternMatcher.groupCount() >= nbGroup) {
+                    System.out.println(lowerFileName + "  matched with   " + currentPattern);
+
+                    episode = nbGroup > 1 ? currentPatternMatcher.group(2) : currentPatternMatcher.group(1);
+                    season = nbGroup > 1 ? currentPatternMatcher.group(1) : null;
+
+                    break;
+                }
+            }
+            return this;
+        }
+    }
 }
