@@ -3,18 +3,15 @@ package com.benito.dalmeida.app;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.benito.dalmeida.app.arrange.TvShowArranger;
-import com.benito.dalmeida.app.rename.FileRenamer;
-
-import static com.benito.dalmeida.app.Constant.*;
+import com.benito.dalmeida.app.arrange.TvShowArrangerProccess;
 
 public class ArrangeMain {
-    private static final Log LOGGER = LogFactory.getLog(RemoveBadWordMain.class);
+    private static final Log LOGGER = LogFactory.getLog(ArrangeMain.class);
 
 	public static void main(String[] args) {
 
-        TvShowArranger tvShowArranger =  new TvShowArranger();
-        tvShowArranger.arrange(Constant.DOWNLOAD_DIR);
+        TvShowArrangerProccess tvShowArrangerProccess =  new TvShowArrangerProccess();
+        tvShowArrangerProccess.arrange(Constant.DOWNLOAD_DIR);
         LOGGER.debug("fini");
 	}
 }

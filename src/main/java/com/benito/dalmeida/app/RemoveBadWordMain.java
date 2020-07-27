@@ -11,7 +11,7 @@ import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import com.benito.dalmeida.app.arrange.TvShowArranger;
+import com.benito.dalmeida.app.arrange.TvShowArrangerProccess;
 import com.benito.dalmeida.app.rename.FileRenamer;
 
 public class RemoveBadWordMain {
@@ -25,10 +25,10 @@ public class RemoveBadWordMain {
 
         String[] rootDirectories = directories.stream().toArray(String[]::new);
         final FileRenamer rename = new FileRenamer(rootDirectories);
-        TvShowArranger tvShowArranger = new TvShowArranger();
+        TvShowArrangerProccess tvShowArrangerProccess = new TvShowArrangerProccess();
         for (int i = 0; i < 2; i++) {
             renameDownloadedFile(rename);
-            tvShowArranger.arrange(Constant.DOWNLOAD_DIR);
+            tvShowArrangerProccess.arrange(Constant.DOWNLOAD_DIR);
         }
         LOGGER.debug("fini");
 

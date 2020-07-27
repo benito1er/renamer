@@ -65,23 +65,41 @@ public class Constant {
 
             "Z:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS,
             "Z:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS_ARCHIVED,
+            "Z:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS_ARCHIVED,
             "Z:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MANGA,
             "Z:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MOVIES + FileRenamer.fileSeparator + MY_MOVIES,
             "Z:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MOVIES + FileRenamer.fileSeparator + TO_IMPORT,
 
+            "U:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS,
+            "U:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS_ARCHIVED,
+            "U:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MANGA,
+            "U:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MOVIES + FileRenamer.fileSeparator + TO_IMPORT,
+            "U:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MOVIES + FileRenamer.fileSeparator + MY_MOVIES,
+            "U:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + "Animations",
+            "U:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + "AnimationsMovies",
+            "U:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + "AnimationsTvShows",
             // "T:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + "XXX_Adult" ,
-            "Z:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS_ARCHIVED,
+
             //"T:" + FileRenamer.fileSeparator + "torrents"
 
     };
 
     static String[] DOWNLOAD_DIR = {
 
+            "Z:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
+            "Z:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
+            "Z:" + FileRenamer.fileSeparator + TÉLÉCHARGEMENTS,
+            "Z:" + FileRenamer.fileSeparator + TELECHARGEMENT,
+
             "Y:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
             "Y:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
             "Y:" + FileRenamer.fileSeparator + TÉLÉCHARGEMENTS,
             "Y:" + FileRenamer.fileSeparator + TELECHARGEMENT,
 
+            "U:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
+            "U:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
+            "U:" + FileRenamer.fileSeparator + TÉLÉCHARGEMENTS,
+            "U:" + FileRenamer.fileSeparator + TELECHARGEMENT,
 
             "X:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
             "X:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,

@@ -9,19 +9,19 @@ import org.junit.Test;
 
 public class TvShowArrangerTest {
 
-	private TvShowArranger tvShowArranger =  new TvShowArranger();
+	private TvShowArrangerProccess tvShowArrangerProccess =  new TvShowArrangerProccess();
 	@Test
 	public void testGetMapOfFiles(){
 		String fileName ="Y://Téléchargé";
 		File currentDir =  new File(fileName);
 		Map<String, List<File>> arrangeMap = new HashMap<>();
-		Map<String, List<File>> mapOfFiles = tvShowArranger.getMapOfFiles(currentDir,arrangeMap);
+		Map<String, List<File>> mapOfFiles = tvShowArrangerProccess.getMapOfFiles(currentDir,arrangeMap);
 		
 	}
 	
 	@Test
 	public void testArrange(){
-		String [] sampleDirs = {"W:\\Téléchargé\\One.Piece\\One.Piece.S01"};
-		tvShowArranger.arrange(sampleDirs);
+		String [] sampleDirs = {"W:\\Téléchargé"};
+		tvShowArrangerProccess.arrange(sampleDirs);
 	}
 }
