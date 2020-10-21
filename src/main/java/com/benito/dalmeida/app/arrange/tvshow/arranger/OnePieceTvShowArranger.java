@@ -1,12 +1,18 @@
-package com.benito.dalmeida.app.arrange;
+package com.benito.dalmeida.app.arrange.tvshow.arranger;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
-public class OnePieceTvShowArranger implements TvShowArranger {
+public class OnePieceTvShowArranger  extends AbstractTvShowArranger {
+    private OnePieceTvShowArranger (){           }
+    private static OnePieceTvShowArranger INSTANCE = null;
+
+    public static OnePieceTvShowArranger getInstance(){
+        if(INSTANCE == null)
+            INSTANCE =  new OnePieceTvShowArranger();
+        return INSTANCE;
+    }
     public boolean isThisTvShowArrangerFile(String lowerFileName){
         if (StringUtils.containsIgnoreCase(lowerFileName, "one") && StringUtils.containsIgnoreCase(lowerFileName, "piece"))
             return true;
@@ -74,40 +80,5 @@ public class OnePieceTvShowArranger implements TvShowArranger {
         return season;
 
     }
-    public Map<String,String> getTvShowSeasonAndEpisodeAsMapValues(File currentDir){
-        String fileName = currentDir.getName();
-        String lowerFileName = StringUtils.lowerCase(fileName);
-        String tvShowName = getTvShowName(currentDir);
-        TvShowKnownPatternName tvShowKnowName = new TvShowKnownPatternName(lowerFileName).invoke();
 
-        String season = tvShowKnowName.getSeason();
-
-        String episode = tvShowKnowName.getEpisode();
-        //       else if (isOnePieceFile(lowerFileName)) {
-//            tvShowName = "One.Piece";
-//            TvShowKnownPatternName tvShowKnowName = new TvShowKnownPatternName(this, lowerFileName).invoke();
-//            season = tvShowKnowName.getSeason();
-//            episode = tvShowKnowName.getEpisode();
-//
-            if (episode != null && season == null) {
-                season = getTvShowSeason(fileName, episode);
-            } else {
-                if (episode == null) {
-                    String numbers = lowerFileName.replaceAll("\\D+", " ");
-                    if (StringUtils.isBlank(numbers)) {
-                        numbers = "0";
-                    }
-
-                    episode = StringUtils.split(numbers, " ")[0];
-                    season = getTvShowSeason(fileName, episode);
-                }
-
-
-            }
-        Map<String,String> result = new HashMap<>();
-        result.put("tvShowName",tvShowName);
-        result.put("season",season);
-        result.put("episode",episode);
-        return result;
-    }
 }

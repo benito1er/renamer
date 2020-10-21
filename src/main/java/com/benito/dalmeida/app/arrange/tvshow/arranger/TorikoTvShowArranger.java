@@ -1,5 +1,7 @@
-package com.benito.dalmeida.app.arrange;
+package com.benito.dalmeida.app.arrange.tvshow.arranger;
 
+import com.benito.dalmeida.app.arrange.tvshow.TvShowArranger;
+import com.benito.dalmeida.app.arrange.tvshow.TvShowKnownPatternName;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -7,6 +9,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TorikoTvShowArranger implements TvShowArranger {
+    private TorikoTvShowArranger() {
+    }
+
+    private static TorikoTvShowArranger INSTANCE = null;
+
+    public static TorikoTvShowArranger getInstance() {
+        if (INSTANCE == null)
+            INSTANCE = new TorikoTvShowArranger();
+        return INSTANCE;
+    }
+
     public boolean isThisTvShowArrangerFile(String lowerFileName) {
         if (StringUtils.containsIgnoreCase(lowerFileName, "toriko"))
             return true;

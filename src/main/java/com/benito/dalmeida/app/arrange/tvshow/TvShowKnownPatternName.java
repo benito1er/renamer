@@ -1,4 +1,4 @@
-package com.benito.dalmeida.app.arrange;
+package com.benito.dalmeida.app.arrange.tvshow;
 
 import org.apache.commons.lang3.StringUtils;
 

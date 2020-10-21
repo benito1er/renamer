@@ -1,4 +1,4 @@
-package com.benito.dalmeida.app.arrange;
+package com.benito.dalmeida.app.arrange.tvshow;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +18,6 @@ public class TvShowArrangerProccess {
             "ep.(\\d{1,3})",
             " e(\\d{1,3}) ",
             "_e(\\d{1,3})",
-            "episode (\\d{1,3})",
             "s(\\d{1,2})e(\\d{1,2})",
             "s(\\d{1,2}) (\\p{Punct}) episode (\\d{1,3})",
             "(\\d{1,2})x(\\d{1,2})",
@@ -32,8 +31,11 @@ public class TvShowArrangerProccess {
             " (\\d{1,3})",
             "_(\\d{1,3})",
             "_e(\\d{1,3})",
+            ".E(\\d{1,3})",
             "ep(\\d{1,3})",
             "episode (\\d{1,3})",
+            "Episode (\\d{1,3})",
+            "(\\d{1,2}) Episode (\\d{1,3})",
             "s(\\d{1,2}) - (\\d{1,2})"};
     //"\\p{Punct}(\\d{1,3})\\p{Punct}"};
 
@@ -49,60 +51,6 @@ public class TvShowArrangerProccess {
         String season = tvShowinfo.get("season");
         String episode = tvShowinfo.get("episode");
         LOGGER.info(String.format("processing tvShow %s, season %s, and episode %s",tvShowName,season,episode));
-
-            /*else if (seasonSpace_EpPatternMatcher.find() && seasonSpace_EpPatternMatcher.groupCount() >= 1) {
-            System.out.println(lowerFileName + "  matched with   " + seasonSpace_EpPattern);
-            season = seasonSpace_EpPatternMatcher.group(1);
-            episode = seasonSpace_EpPatternMatcher.group(2);
-            tvShowName = StringUtils.substringBefore(lowerFileName, episode);
-        } else if (normalMatcher.groupCount() >= 2 && normalMatcher.find()) {
-            season = normalMatcher.group(1);
-            episode = normalMatcher.group(2);
-            tvShowName = StringUtils.substringBefore(lowerFileName, "s" + season);
-            if (tvShowName.endsWith(".")) {
-                tvShowName = StringUtils.removeEnd(tvShowName, ".");
-            }
-        } else if (seasonCroosEpMatcher.find() && seasonCroosEpMatcher.groupCount() >= 2) {
-            System.out.println(lowerFileName + "  matched with   " + seasonCrossEpPattern);
-            season = seasonCroosEpMatcher.group(1);
-            episode = seasonCroosEpMatcher.group(2);
-            tvShowName = StringUtils.substringBefore(lowerFileName, season);
-        } else if (_epOnlyMatcher.find() && _epOnlyMatcher.groupCount() >= 1) {
-            System.out.println(lowerFileName + "  matched with   " + _epOnlyPattern);
-            season = "01";
-            episode = _epOnlyMatcher.group(1);
-            tvShowName = StringUtils.substringBefore(lowerFileName, episode);
-        } else if (eEpOnlyPatternMatcher.find() && eEpOnlyPatternMatcher.groupCount() >= 1) {
-            System.out.println(lowerFileName + "  matched with   " + eEpOnlyPattern);
-            season = "01";
-            episode = eEpOnlyPatternMatcher.group(1);
-            tvShowName = StringUtils.substringBefore(lowerFileName, episode);
-        } else if (spaceEpOnlyMatcher.find() && spaceEpOnlyMatcher.groupCount() >= 1) {
-
-            System.out.println(lowerFileName + "  matched with   " + spaceEpOnlyPattern);
-            String temp = spaceEpOnlyMatcher.group(1);
-            episode = temp.length() > 2 ? temp.substring(temp.length() - 2, temp.length()) : temp;
-            season = StringUtils.isNotBlank(StringUtils.substringBefore(temp, episode)) ? StringUtils.substringBefore(temp, episode) : "01";
-            tvShowName = StringUtils.substringBefore(lowerFileName, episode);
-        } else if (dotSeasonEpPatternMatcher.find() && dotSeasonEpPatternMatcher.groupCount() >= 1) {
-            System.out.println(lowerFileName + "  matched with   " + dotSeasonEpPattern);
-            String temp = dotSeasonEpPatternMatcher.group(1);
-            int beginIndex = temp.length() - 2;
-            if (beginIndex > 0) {
-                episode = temp.substring(beginIndex, temp.length());
-                season = StringUtils.substringBefore(temp, episode);
-                tvShowName = StringUtils.substringBefore(lowerFileName, season + episode);
-                season = "0" + season;
-            } else {
-                season = "";
-                episode = null;
-                tvShowName = "MOVIES";
-            }
-        } else {
-            season = "";
-            episode = null;
-            tvShowName = "MOVIES";
-        }*/
 
 
         StringBuilder sb = new StringBuilder();

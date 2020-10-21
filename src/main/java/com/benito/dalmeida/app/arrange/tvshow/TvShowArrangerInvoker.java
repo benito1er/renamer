@@ -1,6 +1,6 @@
-package com.benito.dalmeida.app.arrange;
+package com.benito.dalmeida.app.arrange.tvshow;
 
-import org.apache.commons.lang3.StringUtils;
+import com.benito.dalmeida.app.arrange.tvshow.arranger.*;
 
 import java.util.LinkedList;
 
@@ -9,21 +9,21 @@ public class TvShowArrangerInvoker {
     private static LinkedList<TvShowArranger> executionOrderTvShowArranger() {
         LinkedList<TvShowArranger> tvShowArrangers = new LinkedList<>();
 
-        tvShowArrangers.add(new OnePieceKaiTvShowArranger());
+        tvShowArrangers.add( OnePieceKaiTvShowArranger.getInstance());
 
-        tvShowArrangers.add( new DragonBallSuperHeroesTvShowArranger());
+        tvShowArrangers.add(  DragonBallSuperHeroesTvShowArranger.getInstance());
 
-        tvShowArrangers.add(new DragonBallSuperTvShowArranger());
+        tvShowArrangers.add( DragonBallSuperTvShowArranger.getInstance());
 
-        tvShowArrangers.add( new BorutoTvShowArranger());
+        tvShowArrangers.add(  BorutoTvShowArranger.getInstance());
 
-        tvShowArrangers.add(new OnePieceTvShowArranger());
+        tvShowArrangers.add( OnePieceTvShowArranger.getInstance());
 
-        tvShowArrangers.add( new TorikoTvShowArranger());
+        tvShowArrangers.add(  TorikoTvShowArranger.getInstance());
 
-        tvShowArrangers.add(new AttackOnTitanTvShowArranger());
+        tvShowArrangers.add( AttackOnTitanTvShowArranger.getInstance());
+        tvShowArrangers.add( OverlordTvShowArranger.getInstance());
 
-        tvShowArrangers.add(new GenericTvShowArranger());
 
         return tvShowArrangers;
     }
@@ -39,7 +39,7 @@ public class TvShowArrangerInvoker {
             }
         }
         if (selectedTvShowArranger == null) {
-            selectedTvShowArranger = executionOrderTvShowArranger().getLast();
+            selectedTvShowArranger = GenericTvShowArranger.getInstance();
 
         }
         return selectedTvShowArranger;

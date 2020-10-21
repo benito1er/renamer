@@ -1,5 +1,7 @@
-package com.benito.dalmeida.app.arrange;
+package com.benito.dalmeida.app.arrange.tvshow.arranger;
 
+import com.benito.dalmeida.app.arrange.tvshow.PatternInvoker;
+import com.benito.dalmeida.app.arrange.tvshow.TvShowArrangerProccess;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -8,7 +10,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class GenericTvShowArranger implements TvShowArranger {
+public class GenericTvShowArranger  extends AbstractTvShowArranger {
+    private GenericTvShowArranger (){           }
+    private static GenericTvShowArranger INSTANCE = null;
+
+    public static GenericTvShowArranger getInstance(){
+        if(INSTANCE == null)
+            INSTANCE =  new GenericTvShowArranger();
+        return INSTANCE;
+    }
     @Override
     public boolean isThisTvShowArrangerFile(String lowerFileName) {
         return false;

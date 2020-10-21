@@ -11,7 +11,7 @@ import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import com.benito.dalmeida.app.arrange.TvShowArrangerProccess;
+import com.benito.dalmeida.app.arrange.tvshow.TvShowArrangerProccess;
 import com.benito.dalmeida.app.rename.FileRenamer;
 
 public class RemoveBadWordMain {

@@ -3,7 +3,7 @@ package com.benito.dalmeida.app;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.benito.dalmeida.app.arrange.TvShowArrangerProccess;
+import com.benito.dalmeida.app.arrange.tvshow.TvShowArrangerProccess;
 
 public class ArrangeMain {
     private static final Log LOGGER = LogFactory.getLog(ArrangeMain.class);
