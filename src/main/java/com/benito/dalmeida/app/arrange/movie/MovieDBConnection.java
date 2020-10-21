@@ -60,7 +60,16 @@ public class MovieDBConnection {
                 try (Connection conn = this.connect();
                      PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setString(1, name);
-                    pstmt.setDouble(2, capacity);
+                    pstmt.setString(2, name);
+                    pstmt.setString(3, name);
+                    pstmt.setString(5, name);
+                    pstmt.setString(6, name);
+                    pstmt.setString(7, name);
+                    pstmt.setString(8, name);
+                    pstmt.setString(9, name);
+                    pstmt.setString(10, name);
+                    pstmt.setString(11, name);
+
                     pstmt.executeUpdate();
                 } catch (SQLException e) {
                     System.out.println(e.getMessage());
