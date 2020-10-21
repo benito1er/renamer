@@ -3,7 +3,7 @@ package com.benito.dalmeida.app.arrange.movie;
 import lombok.Data;
 
 @Data
-public class AllocineMovieInfo {
+public class AlloCineMovieInfo {
    private String filename;
    private String titleKey;
    private String titre;

@@ -17,7 +17,7 @@ import java.io.IOException;
 public class MovieXmlFileParser {
     private static final Log LOGGER = LogFactory.getLog(MovieXmlFileParser.class);
 
-    public AllocineMovieInfo getInfo(File movieDir) throws ParserConfigurationException, IOException, SAXException {
+    public AlloCineMovieInfo getInfo(File movieDir) throws ParserConfigurationException, IOException, SAXException {
         String moviePath = movieDir.getCanonicalPath();
         File inputFile = new File(moviePath + "/Movie.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -26,7 +26,8 @@ public class MovieXmlFileParser {
         doc.getDocumentElement().normalize();
         LOGGER.info("Root element :" + doc.getDocumentElement().getNodeName());
         NodeList nList = doc.getElementsByTagName("Title");
-
+                    AlloCineMovieInfo allocineMovieInfo = new AlloCineMovieInfo();
+        allocineMovieInfo.setFilename(movieDir.getName());
         for (int i = 0; i < nList.getLength(); i++) {
             Node nNode = nList.item(i);
             LOGGER.info("\nCurrent Element :" + nNode.getNodeName());
@@ -43,43 +44,51 @@ public class MovieXmlFileParser {
                         .getElementsByTagName("LocalTitle")
                         .item(0)
                         .getTextContent();
+                allocineMovieInfo.setTitre(localTitle);
                 String originalTitle = eElement
                         .getElementsByTagName("OriginalTitle")
                         .item(0)
                         .getTextContent();
+                allocineMovieInfo.setTitreOriginal(originalTitle);
                 String description = eElement
                         .getElementsByTagName("Description")
                         .item(0)
                         .getTextContent();
+                allocineMovieInfo.setSynopsis(description);
                 String iMDBrating = eElement
                         .getElementsByTagName("IMDBrating")
                         .item(0)
                         .getTextContent();
+                allocineMovieInfo.setNotePresse(iMDBrating);
                 String productionYear = eElement
                         .getElementsByTagName("ProductionYear")
                         .item(0)
                         .getTextContent();
+                allocineMovieInfo.setAnneeDeSortie(productionYear);
                 String genre = eElement
                         .getElementsByTagName("Genre")
                         .item(0)
                         .getTextContent();
+                allocineMovieInfo.setGenre(genre);
                 NodeList personsNodes =  eElement
                         .getElementsByTagName("Person");
                 int l=personsNodes.getLength();
 
 
                 String personDirector = ((Element)personsNodes.item(0)).getElementsByTagName("Name").item(0).getTextContent();
+                allocineMovieInfo.setRealisateur(personDirector);
                 String personActor = "";
                 for (int j = 1; j < personsNodes.getLength(); j++) {
                     Element personEl = (Element) personsNodes.item(j);
                     personActor+=personEl.getElementsByTagName("Name").item(0).getTextContent()+", ";
 
                 }
-
+                allocineMovieInfo.setActeurs(personActor);
+                break;
 
             }
         }
 
-        return new AllocineMovieInfo();
+        return allocineMovieInfo;
     }
 }
