@@ -17,7 +17,7 @@ import java.io.IOException;
 public class MovieXmlFileParser {
     private static final Log LOGGER = LogFactory.getLog(MovieXmlFileParser.class);
 
-    public AllocineMovieInfo getInfo(File movieDir) throws ParserConfigurationException, IOException, SAXException {
+    public AlloCineMovieInfo getInfo(File movieDir) throws ParserConfigurationException, IOException, SAXException {
         String moviePath = movieDir.getCanonicalPath();
         File inputFile = new File(moviePath + "/Movie.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -80,6 +80,6 @@ public class MovieXmlFileParser {
             }
         }
 
-        return new AllocineMovieInfo();
+        return new AlloCineMovieInfo();
     }
 }
