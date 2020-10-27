@@ -1,5 +1,6 @@
 package com.benito.dalmeida.app.arrange.movie;
 
+import com.benito.dalmeida.app.Constant;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,7 +16,7 @@ import java.util.List;
 public class MovieDBConnection {
     private static final Log LOGGER = LogFactory.getLog(MovieDBConnection.class);
 
-    private String sqliteDatabaseFilePath;
+    private String sqliteDatabaseFilePath= Constant.MOVIES_MAIN_DIR;
 
 
     public Connection connect() {

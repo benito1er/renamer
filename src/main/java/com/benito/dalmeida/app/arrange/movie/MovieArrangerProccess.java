@@ -21,7 +21,7 @@ public class MovieArrangerProccess {
             List<AlloCineMovieInfo> currents = movieXmlFileParser.getInfo(movieDir);
             alloCineMovieInfos.addAll(currents);
         }
-        movieDBConnection.insertInTable("", alloCineMovieInfos);
+        movieDBConnection.insertInTable("MOVIES_MAIN_DIR", alloCineMovieInfos);
         return alloCineMovieInfos;
     }
 

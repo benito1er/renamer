@@ -16,8 +16,9 @@ public class Constant {
     public static final String TÉLÉCHARGEMENTS = "Téléchargements";
     public static final String TELECHARGEMENT = "Telechargement";
 
+    public static final String MOVIES_MAIN_DIR =  "V:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MOVIES + FileRenamer.fileSeparator + MY_MOVIES;
 
-    static final String[] CONTENT_DIRECTORIES = { /* "Y:" + FileRenamer.fileSeparator + "Téléchargements", */
+    public  static final String[] CONTENT_DIRECTORIES = { /* "Y:" + FileRenamer.fileSeparator + "Téléchargements", */
             //"K:" + FileRenamer.fileSeparator + "Movies",
             "J:" + FileRenamer.fileSeparator + MOVIES,
             "G:" + FileRenamer.fileSeparator + MOVIES,
@@ -84,7 +85,7 @@ public class Constant {
 
     };
 
-    static String[] DOWNLOAD_DIR = {
+    public   static String[] DOWNLOAD_DIR = {
 
             "Z:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
             "Z:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
