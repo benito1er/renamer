@@ -1,5 +1,6 @@
 package com.benito.dalmeida.app.arrange.movie;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
@@ -13,11 +14,26 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MovieXmlFileParser {
     private static final Log LOGGER = LogFactory.getLog(MovieXmlFileParser.class);
 
-    public AlloCineMovieInfo getInfo(File movieDir) throws ParserConfigurationException, IOException, SAXException {
+     public List<AlloCineMovieInfo> getInfo(File movieDir) throws IOException, SAXException, ParserConfigurationException {
+         List<AlloCineMovieInfo> alloCineMovieInfos = new ArrayList<>();
+         AlloCineMovieInfo root = getInfoFromXmlFile(movieDir);
+         for(File contentFile : movieDir.listFiles()){
+             if(StringUtils.equalsIgnoreCase(contentFile.getName(),"Movie.xml")){
+                 continue;
+             }
+             AlloCineMovieInfo copy = root.copy(contentFile);
+             alloCineMovieInfos.add(copy);
+         }
+         return alloCineMovieInfos;
+     }
+
+    protected AlloCineMovieInfo getInfoFromXmlFile(File movieDir) throws ParserConfigurationException, IOException, SAXException {
         String moviePath = movieDir.getCanonicalPath();
         File inputFile = new File(moviePath + "/Movie.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -26,6 +42,10 @@ public class MovieXmlFileParser {
         doc.getDocumentElement().normalize();
         LOGGER.info("Root element :" + doc.getDocumentElement().getNodeName());
         NodeList nList = doc.getElementsByTagName("Title");
+        AlloCineMovieInfo allocineMovieInfo = new AlloCineMovieInfo();
+        allocineMovieInfo.setFilename(movieDir.getName());
+
+
 
         for (int i = 0; i < nList.getLength(); i++) {
             Node nNode = nList.item(i);
@@ -43,43 +63,53 @@ public class MovieXmlFileParser {
                         .getElementsByTagName("LocalTitle")
                         .item(0)
                         .getTextContent();
+                allocineMovieInfo.setTitre(localTitle);
+                allocineMovieInfo.setTitleKey(localTitle);
                 String originalTitle = eElement
                         .getElementsByTagName("OriginalTitle")
                         .item(0)
                         .getTextContent();
+                allocineMovieInfo.setTitreOriginal(originalTitle);
                 String description = eElement
                         .getElementsByTagName("Description")
                         .item(0)
                         .getTextContent();
+                allocineMovieInfo.setSynopsis(description);
                 String iMDBrating = eElement
                         .getElementsByTagName("IMDBrating")
                         .item(0)
                         .getTextContent();
+                allocineMovieInfo.setNotePresse(iMDBrating);
                 String productionYear = eElement
                         .getElementsByTagName("ProductionYear")
                         .item(0)
                         .getTextContent();
+                allocineMovieInfo.setAnneeDeSortie(productionYear);
                 String genre = eElement
                         .getElementsByTagName("Genre")
                         .item(0)
                         .getTextContent();
-                NodeList personsNodes =  eElement
+                allocineMovieInfo.setGenre(genre);
+                NodeList personsNodes = eElement
                         .getElementsByTagName("Person");
-                int l=personsNodes.getLength();
+                int l = personsNodes.getLength();
 
 
-                String personDirector = ((Element)personsNodes.item(0)).getElementsByTagName("Name").item(0).getTextContent();
+                String personDirector = ((Element) personsNodes.item(0)).getElementsByTagName("Name").item(0).getTextContent();
+                allocineMovieInfo.setRealisateur(personDirector);
                 String personActor = "";
                 for (int j = 1; j < personsNodes.getLength(); j++) {
                     Element personEl = (Element) personsNodes.item(j);
-                    personActor+=personEl.getElementsByTagName("Name").item(0).getTextContent()+", ";
+                    personActor += personEl.getElementsByTagName("Name").item(0).getTextContent() + ", ";
 
                 }
-
+                allocineMovieInfo.setActeurs(personActor);
+                break;
 
             }
         }
 
-        return new AlloCineMovieInfo();
+        return allocineMovieInfo;
     }
+
 }
