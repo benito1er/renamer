@@ -17,25 +17,37 @@ public class TvShowArrangerProccess {
             "ep(\\d{1,3})",
             "ep.(\\d{1,3})",
             " e(\\d{1,3}) ",
+            " e(\\d{1,3}) ",
             "_e(\\d{1,3})",
-            "s(\\d{1,2})e(\\d{1,2})",
-            "s(\\d{1,2}) (\\p{Punct}) episode (\\d{1,3})",
-            "(\\d{1,2})x(\\d{1,2})",
+            "\\.e(\\d{1,3})",
+            "s(\\d{1,3})\\.e(\\d{1,3})",
+            "s(\\d{1,3}) (\\p{Punct}) episode (\\d{1,3})",
+            "s(\\d{1,3})e(\\d{1,3})",
+            "(\\d{1,3})x(\\d{1,3})",
+            "s(\\d{1,3}) - e(\\d{1,3})",
     };
 
-    public static String[] PATTERNS = {"s(\\d{1,2})e(\\d{1,2})",
+    public static String[] PATTERNS = {
+            "s(\\d{1,2})e(\\d{1,3})",
+            "s(\\d{1,2}).ep(\\d{1,3})",
+            "s(\\d{1,2}) e(\\d{1,3})",
+            "(\\d{1,2})x(\\d{1,3})",
+            "s(\\d{1,2})-(\\d{1,3})",
+            "s(\\d{1,3})\\.e(\\d{1,3})",
+            "s(\\d{1,2})e(\\d{1,2})",
             "s(\\d{1,2}).ep(\\d{1,2})",
             "s(\\d{1,2}) e(\\d{1,2})",
             "(\\d{1,2})x(\\d{1,2})",
             "s(\\d{1,2})-(\\d{1,2})",
             " (\\d{1,3})",
+           // "e - (\\d{1,3})",
+            "- (\\d{1,3})",
             "_(\\d{1,3})",
             "_e(\\d{1,3})",
-            ".E(\\d{1,3})",
             "ep(\\d{1,3})",
             "episode (\\d{1,3})",
-            "Episode (\\d{1,3})",
-            "(\\d{1,2}) Episode (\\d{1,3})",
+            "episode (\\d{1,3})",
+            "(\\d{1,2}) episode (\\d{1,3})",
             "s(\\d{1,2}) - (\\d{1,2})"};
     //"\\p{Punct}(\\d{1,3})\\p{Punct}"};
 
@@ -43,15 +55,13 @@ public class TvShowArrangerProccess {
     private void manageOneFile(File currentDir, Map<String, List<File>> arrangeMap) {
         String fileName = currentDir.getName();
         String lowerFileName = StringUtils.lowerCase(fileName);
-
-
         TvShowArranger currentTvShowArranger = TvShowArrangerInvoker.getTvShowArranger(lowerFileName);
         Map<String, String> tvShowinfo = currentTvShowArranger.getTvShowSeasonAndEpisodeAsMapValues(currentDir);
         String tvShowName = tvShowinfo.get("tvShowName");
         String season = tvShowinfo.get("season");
         String episode = tvShowinfo.get("episode");
         LOGGER.info(String.format("processing tvShow %s, season %s, and episode %s",tvShowName,season,episode));
-
+        File newCurrentFile = currentTvShowArranger.renameFile(currentDir, tvShowinfo);
 
         StringBuilder sb = new StringBuilder();
         sb.append(tvShowName).append("#").append(season);
@@ -61,7 +71,7 @@ public class TvShowArrangerProccess {
             multimediaFiles = new ArrayList<>();
             arrangeMap.put(tvShowAndSeason, multimediaFiles);
         }
-        multimediaFiles.add(currentDir);
+        multimediaFiles.add(newCurrentFile);
 
     }
 

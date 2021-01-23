@@ -16,24 +16,29 @@ public class Constant {
     public static final String TÉLÉCHARGEMENTS = "Téléchargements";
     public static final String TELECHARGEMENT = "Telechargement";
 
-    public static final String MOVIES_MAIN_DIR =  "V:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MOVIES + FileRenamer.fileSeparator + MY_MOVIES;
+    public static final String MOVIES_MAIN_DIR =  "V:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MOVIES ;
+    public static final String MY_MOVIES_MAIN_DIR =  MOVIES_MAIN_DIR + FileRenamer.fileSeparator + MY_MOVIES;
+    public static final String MY_MOVIES_DB_FILE =  MOVIES_MAIN_DIR + FileRenamer.fileSeparator + "MyCinemaData" + FileRenamer.fileSeparator+"data" + FileRenamer.fileSeparator+"db.myc";
 
-    public  static final String[] CONTENT_DIRECTORIES = { /* "Y:" + FileRenamer.fileSeparator + "Téléchargements", */
+    public static final String WINDOWS_PATH_J = "J:" + FileRenamer.fileSeparator;
+    public static final String WINDOWS_PATH_G = "G:" + FileRenamer.fileSeparator;
+    public static final String WINDOWS_PATH_H = "H:" + FileRenamer.fileSeparator;
+    public static final String WINDOWS_PATH_Y = "Y:" + FileRenamer.fileSeparator;
+    public  static final String[] CONTENT_DIRECTORIES = { /* WINDOWS_PATH_Y + "Téléchargements", */
             //"K:" + FileRenamer.fileSeparator + "Movies",
-            "J:" + FileRenamer.fileSeparator + MOVIES,
-            "G:" + FileRenamer.fileSeparator + MOVIES,
-            "H:" + FileRenamer.fileSeparator + MOVIES,
+            WINDOWS_PATH_J + MOVIES,
+            WINDOWS_PATH_G + MOVIES,
+            WINDOWS_PATH_H + MOVIES,
 
 
-
-            "Y:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS,
-            "Y:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS_ARCHIVED,
-            "Y:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MANGA,
-            "Y:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MOVIES + FileRenamer.fileSeparator + TO_IMPORT,
-            "Y:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + MOVIES + FileRenamer.fileSeparator + MY_MOVIES,
-            "Y:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + "Animations",
-            "Y:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + "AnimationsMovies",
-            "Y:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + "AnimationsTvShows",
+            WINDOWS_PATH_Y + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS,
+            WINDOWS_PATH_Y + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS_ARCHIVED,
+            WINDOWS_PATH_Y + VIDEOS_DIR + FileRenamer.fileSeparator + MANGA,
+            WINDOWS_PATH_Y + VIDEOS_DIR + FileRenamer.fileSeparator + MOVIES + FileRenamer.fileSeparator + TO_IMPORT,
+            WINDOWS_PATH_Y + VIDEOS_DIR + FileRenamer.fileSeparator + MOVIES + FileRenamer.fileSeparator + MY_MOVIES,
+            WINDOWS_PATH_Y + VIDEOS_DIR + FileRenamer.fileSeparator + "Animations",
+            WINDOWS_PATH_Y + VIDEOS_DIR + FileRenamer.fileSeparator + "AnimationsMovies",
+            WINDOWS_PATH_Y + VIDEOS_DIR + FileRenamer.fileSeparator + "AnimationsTvShows",
 
 
             "X:" + FileRenamer.fileSeparator + VIDEOS_DIR + FileRenamer.fileSeparator + TVSHOWS,
@@ -92,10 +97,10 @@ public class Constant {
             "Z:" + FileRenamer.fileSeparator + TÉLÉCHARGEMENTS,
             "Z:" + FileRenamer.fileSeparator + TELECHARGEMENT,
 
-            "Y:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
-            "Y:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
-            "Y:" + FileRenamer.fileSeparator + TÉLÉCHARGEMENTS,
-            "Y:" + FileRenamer.fileSeparator + TELECHARGEMENT,
+            WINDOWS_PATH_Y + TÉLÉCHARGÉ,
+            WINDOWS_PATH_Y + TÉLÉCHARGÉ,
+            WINDOWS_PATH_Y + TÉLÉCHARGEMENTS,
+            WINDOWS_PATH_Y + TELECHARGEMENT,
 
             "U:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,
             "U:" + FileRenamer.fileSeparator + TÉLÉCHARGÉ,

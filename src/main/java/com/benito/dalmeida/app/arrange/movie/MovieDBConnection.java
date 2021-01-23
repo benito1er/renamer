@@ -16,7 +16,7 @@ import java.util.List;
 public class MovieDBConnection {
     private static final Log LOGGER = LogFactory.getLog(MovieDBConnection.class);
 
-    private String sqliteDatabaseFilePath= Constant.MOVIES_MAIN_DIR;
+    private String sqliteDatabaseFilePath= Constant.MY_MOVIES_DB_FILE;
 
 
     public Connection connect() {
@@ -57,7 +57,11 @@ public class MovieDBConnection {
 
     private void moveToGenreDirectory(String movieArrangedDir, AlloCineMovieInfo alloCineMovieInfo) throws IOException {
         File destDir = new File(movieArrangedDir + File.separator + alloCineMovieInfo.getGenre());
-        FileUtils.moveFileToDirectory(alloCineMovieInfo.getMovieFile(), destDir, true);
+        try {
+            FileUtils.moveToDirectory(alloCineMovieInfo.getMovieFile(), destDir, true);
+        }catch (Exception e){
+            System.err.println("Cannot move file "+alloCineMovieInfo.getMovieFile());
+        }
     }
 
     private void insertInTable(AlloCineMovieInfo alloCineMovieInfo) {

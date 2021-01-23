@@ -11,4 +11,6 @@ public interface TvShowArranger {
      String getTvShowName(File currentDir);
 
      Map<String,String> getTvShowSeasonAndEpisodeAsMapValues(File currentDir);
+
+     File renameFile(File currentFile, Map<String, String> tvShowinfo);
 }

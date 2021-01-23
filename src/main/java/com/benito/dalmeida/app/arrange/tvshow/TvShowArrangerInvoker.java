@@ -15,6 +15,8 @@ public class TvShowArrangerInvoker {
 
         tvShowArrangers.add( DragonBallSuperTvShowArranger.getInstance());
 
+
+
         tvShowArrangers.add(  BorutoTvShowArranger.getInstance());
 
         tvShowArrangers.add( OnePieceTvShowArranger.getInstance());
@@ -23,7 +25,7 @@ public class TvShowArrangerInvoker {
 
         tvShowArrangers.add( AttackOnTitanTvShowArranger.getInstance());
         tvShowArrangers.add( OverlordTvShowArranger.getInstance());
-
+        tvShowArrangers.add( DragonBallTvShowArranger.getInstance());
 
         return tvShowArrangers;
     }

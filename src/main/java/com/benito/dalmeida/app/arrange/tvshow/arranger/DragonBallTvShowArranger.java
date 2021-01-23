@@ -4,25 +4,27 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Map;
 
-public class OnePieceTvShowArranger extends AbstractTvShowArranger {
-    private OnePieceTvShowArranger() {
+public class DragonBallTvShowArranger extends AbstractTvShowArranger {
+    private DragonBallTvShowArranger() {
     }
 
-    private static OnePieceTvShowArranger INSTANCE = null;
+    private static DragonBallTvShowArranger INSTANCE = null;
 
-    public static OnePieceTvShowArranger getInstance() {
+    public static DragonBallTvShowArranger getInstance() {
         if (INSTANCE == null)
-            INSTANCE = new OnePieceTvShowArranger();
+            INSTANCE = new DragonBallTvShowArranger();
         return INSTANCE;
     }
 
     public boolean isThisTvShowArrangerFile(String lowerFileName) {
-        if ((StringUtils.containsIgnoreCase(lowerFileName, "one") && StringUtils.containsIgnoreCase(lowerFileName, "piece"))
-                ||
-                ( StringUtils.startsWithIgnoreCase(lowerFileName, "OP-") &&  (StringUtils.containsIgnoreCase(lowerFileName, "L@mBerT") || StringUtils.containsIgnoreCase(lowerFileName, "LamBerT")))
+        if (StringUtils.containsIgnoreCase(lowerFileName, "dragonball -")
+                || StringUtils.startsWithIgnoreCase(lowerFileName, "ghf2.z.t.d.b")
+                || StringUtils.startsWithIgnoreCase(lowerFileName, "ghf.z.t.d.b")
         )
             return true;
         else
@@ -31,7 +33,7 @@ public class OnePieceTvShowArranger extends AbstractTvShowArranger {
 
     @Override
     public String getTvShowName(File currentDir) {
-        return "One.Piece";
+        return "Dragon.Ball";
     }
 
     public String getTvShowSeason(String fileName, String episode) {
@@ -91,6 +93,12 @@ public class OnePieceTvShowArranger extends AbstractTvShowArranger {
     public File renameFile(File currentFile, Map<String, String> tvShowinfo) {
         String parentPath = currentFile.getParent();
         Path source = currentFile.toPath();
+        if (StringUtils.containsIgnoreCase(source.toString(), "ghf2.z.t.d.b"))
+        {
+            String destinationPath = StringUtils.replace(source.toString(), "ghf2.Z.T.D.B", "ghf.Z.T.D.B");
+            File newCurrentFile = new File(destinationPath);
+            source = newCurrentFile.toPath();
+        }
         String extension = StringUtils.substringAfterLast(currentFile.getName(), ".");
         String fileComplement = StringUtils.substringBetween(currentFile.getName(), tvShowinfo.get("episode"), "." + extension);
         StringBuilder sb = new StringBuilder();
@@ -106,5 +114,24 @@ public class OnePieceTvShowArranger extends AbstractTvShowArranger {
             return currentFile;
         }
         return newCurrentFile;
+    }
+
+    public Map<String, String> getTvShowSeasonAndEpisodeAsMapValues(File currentFile) {
+        String fileName = currentFile.getName();
+        String lowerFileName = StringUtils.lowerCase(fileName);
+        if (StringUtils.startsWithIgnoreCase(lowerFileName, "ghf2.z.t.d.b")) {
+            Path source = currentFile.toPath();
+            String destinationPath = StringUtils.replace(source.toString(), "ghf2.Z.T.D.B", "ghf.Z.T.D.B");
+            File newCurrentFile = new File(destinationPath);
+            try {
+                Files.move(source, newCurrentFile.toPath(), StandardCopyOption.ATOMIC_MOVE);
+                return super.getTvShowSeasonAndEpisodeAsMapValues(newCurrentFile);
+            } catch (IOException e) {
+                //  return super.getTvShowSeasonAndEpisodeAsMapValues(currentFile);
+            }
+
+        }
+
+        return super.getTvShowSeasonAndEpisodeAsMapValues(currentFile);
     }
 }

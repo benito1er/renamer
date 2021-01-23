@@ -8,7 +8,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TorikoTvShowArranger implements TvShowArranger {
+public class TorikoTvShowArranger extends AbstractTvShowArranger {
     private TorikoTvShowArranger() {
     }
 

@@ -42,5 +42,8 @@ public abstract class AbstractTvShowArranger  implements TvShowArranger  {
         return result;
     }
 
+     public File renameFile(File currentFile, Map<String, String> tvShowinfo){
+        return currentFile;
+    }
 
 }

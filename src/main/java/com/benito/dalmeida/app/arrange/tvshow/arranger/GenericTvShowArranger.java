@@ -10,15 +10,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class GenericTvShowArranger  extends AbstractTvShowArranger {
-    private GenericTvShowArranger (){           }
+public class GenericTvShowArranger extends AbstractTvShowArranger {
+    private GenericTvShowArranger() {
+    }
+
     private static GenericTvShowArranger INSTANCE = null;
 
-    public static GenericTvShowArranger getInstance(){
-        if(INSTANCE == null)
-            INSTANCE =  new GenericTvShowArranger();
+    public static GenericTvShowArranger getInstance() {
+        if (INSTANCE == null)
+            INSTANCE = new GenericTvShowArranger();
         return INSTANCE;
     }
+
     @Override
     public boolean isThisTvShowArrangerFile(String lowerFileName) {
         return false;
@@ -34,7 +37,7 @@ public class GenericTvShowArranger  extends AbstractTvShowArranger {
         return this.getTvShowSeasonAndEpisodeAsMapValues(currentDir).get("tvShowName");
     }
 
-    public  Map<String,String> getTvShowSeasonAndEpisodeAsMapValues(File currentDir){
+    public Map<String, String> getTvShowSeasonAndEpisodeAsMapValues(File currentDir) {
         String fileName = currentDir.getName();
         String lowerFileName = StringUtils.lowerCase(fileName);
         String tvShowName = null;
@@ -53,18 +56,19 @@ public class GenericTvShowArranger  extends AbstractTvShowArranger {
             Matcher currentPatternMatcher = currentPattern.matcher(lowerFileName);
             if (currentPatternMatcher.find() && currentPatternMatcher.groupCount() >= nbGroup) {
                 System.out.println(lowerFileName + "  matched with   " + currentPattern);
-
                 episode = nbGroup > 1 ? currentPatternMatcher.group(2) : currentPatternMatcher.group(1);
                 season = nbGroup > 1 ? currentPatternMatcher.group(1) : "01";
                 String temp = nbGroup > 1 ? (currentPatternValue.startsWith("s") ? "s" + season : season) : episode;
-                tvShowName = StringUtils.removeEnd(StringUtils.substringBefore(lowerFileName, temp), ".");
-                if(StringUtils.isBlank(tvShowName)){
-                    String parentDirsPath =currentDir.getParent();
-                    String [] dirs = StringUtils.split(parentDirsPath, File.separator);
-
-                    tvShowName = dirs.length>0? dirs[dirs.length-1]:"Unknown";
+                tvShowName = StringUtils.removeEnd(StringUtils.substringBefore(lowerFileName.trim(), temp), ".");
+                if (("- (\\d{1,3})".trim().equalsIgnoreCase(currentPatternValue.trim()) || " (\\d{1,3})".trim().equalsIgnoreCase(currentPatternValue.trim())) && (StringUtils.startsWithIgnoreCase(episode, "19") || StringUtils.startsWithIgnoreCase(episode, "20"))) {
+                    season = "";
+                    tvShowName = "MOVIES";
                 }
-
+                if (StringUtils.isBlank(tvShowName)) {
+                    String parentDirsPath = currentDir.getParent();
+                    String[] dirs = StringUtils.split(parentDirsPath, File.separator);
+                    tvShowName = dirs.length > 0 ? dirs[dirs.length - 1] : "Unknown";
+                }
                 break;
             }
         }
@@ -72,10 +76,10 @@ public class GenericTvShowArranger  extends AbstractTvShowArranger {
             season = "";
             tvShowName = "MOVIES";
         }
-        Map<String,String> result = new HashMap<>();
-        result.put("tvShowName",tvShowName);
-        result.put("season",season);
-        result.put("episode",episode);
+        Map<String, String> result = new HashMap<>();
+        result.put("tvShowName", tvShowName);
+        result.put("season", season);
+        result.put("episode", episode);
         return result;
     }
 }

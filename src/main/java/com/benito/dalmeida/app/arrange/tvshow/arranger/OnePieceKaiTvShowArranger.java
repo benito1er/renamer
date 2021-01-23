@@ -55,7 +55,7 @@ public class OnePieceKaiTvShowArranger  extends AbstractTvShowArranger {
 
     public boolean isThisTvShowArrangerFile(String lowerFileName) {
         OnePieceTvShowArranger onePieceTvShowArranger = OnePieceTvShowArranger.getInstance();
-        return (onePieceTvShowArranger.isThisTvShowArrangerFile(lowerFileName) && StringUtils.containsIgnoreCase(lowerFileName, "kai")
+        return ((onePieceTvShowArranger.isThisTvShowArrangerFile(lowerFileName) && StringUtils.containsIgnoreCase(lowerFileName, "kai") && !StringUtils.containsIgnoreCase(lowerFileName, "sekai") && !StringUtils.containsIgnoreCase(lowerFileName, "kaid"))
                 || StringUtils.containsIgnoreCase(lowerFileName, "OPK Saga"));
     }
 

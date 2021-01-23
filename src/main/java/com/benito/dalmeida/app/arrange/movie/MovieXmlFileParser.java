@@ -35,6 +35,7 @@ public class MovieXmlFileParser {
 
     protected AlloCineMovieInfo getInfoFromXmlFile(File movieDir) throws ParserConfigurationException, IOException, SAXException {
         String moviePath = movieDir.getCanonicalPath();
+        System.out.println("movie processing "+moviePath);
         File inputFile = new File(moviePath + "/Movie.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -70,10 +71,12 @@ public class MovieXmlFileParser {
                         .item(0)
                         .getTextContent();
                 allocineMovieInfo.setTitreOriginal(originalTitle);
-                String description = eElement
-                        .getElementsByTagName("Description")
+                NodeList desc= eElement
+                        .getElementsByTagName("Description");
+                String description = desc != null && desc
+                        .item(0) != null ? desc
                         .item(0)
-                        .getTextContent();
+                        .getTextContent():"";
                 allocineMovieInfo.setSynopsis(description);
                 String iMDBrating = eElement
                         .getElementsByTagName("IMDBrating")
@@ -87,15 +90,17 @@ public class MovieXmlFileParser {
                 allocineMovieInfo.setAnneeDeSortie(productionYear);
                 String genre = eElement
                         .getElementsByTagName("Genre")
+                        .item(0) != null ? eElement
+                        .getElementsByTagName("Genre")
                         .item(0)
-                        .getTextContent();
+                        .getTextContent():"";
                 allocineMovieInfo.setGenre(genre);
                 NodeList personsNodes = eElement
                         .getElementsByTagName("Person");
                 int l = personsNodes.getLength();
 
 
-                String personDirector = ((Element) personsNodes.item(0)).getElementsByTagName("Name").item(0).getTextContent();
+                String personDirector = l > 0 ? ((Element) personsNodes.item(0)).getElementsByTagName("Name").item(0).getTextContent() : "";
                 allocineMovieInfo.setRealisateur(personDirector);
                 String personActor = "";
                 for (int j = 1; j < personsNodes.getLength(); j++) {
