@@ -9,24 +9,16 @@ public class TvShowArrangerInvoker {
     private static LinkedList<TvShowArranger> executionOrderTvShowArranger() {
         LinkedList<TvShowArranger> tvShowArrangers = new LinkedList<>();
 
-        tvShowArrangers.add( OnePieceKaiTvShowArranger.getInstance());
-
-        tvShowArrangers.add(  DragonBallSuperHeroesTvShowArranger.getInstance());
-
-        tvShowArrangers.add( DragonBallSuperTvShowArranger.getInstance());
-
-
-
-        tvShowArrangers.add(  BorutoTvShowArranger.getInstance());
-
-        tvShowArrangers.add( OnePieceTvShowArranger.getInstance());
-
-        tvShowArrangers.add(  TorikoTvShowArranger.getInstance());
-
-        tvShowArrangers.add( AttackOnTitanTvShowArranger.getInstance());
-        tvShowArrangers.add( OverlordTvShowArranger.getInstance());
-        tvShowArrangers.add( DragonBallTvShowArranger.getInstance());
-
+        tvShowArrangers.add(OnePieceKaiTvShowArranger.getInstance());
+        tvShowArrangers.add(DragonBallSuperHeroesTvShowArranger.getInstance());
+        tvShowArrangers.add(DragonBallSuperTvShowArranger.getInstance());
+        tvShowArrangers.add(BorutoTvShowArranger.getInstance());
+        tvShowArrangers.add(OnePieceTvShowArranger.getInstance());
+        tvShowArrangers.add(TorikoTvShowArranger.getInstance());
+        tvShowArrangers.add(AttackOnTitanTvShowArranger.getInstance());
+        tvShowArrangers.add(OverlordTvShowArranger.getInstance());
+        tvShowArrangers.add(DragonBallTvShowArranger.getInstance());
+        tvShowArrangers.add(SaintSeiyaTvShowArranger.getInstance());
         return tvShowArrangers;
     }
 
