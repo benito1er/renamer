@@ -31,13 +31,13 @@ public class RemoveBadWordMain {
             tvShowArrangerProccess.arrange(Constant.DOWNLOAD_DIR);
         }
         LOGGER.debug("fini");
-
     }
 
     private static void renameDownloadedFile(final FileRenamer rename) {
         final String fileName = "wordToRemoveInFile.txt";
         final ClassLoader classLoader = RemoveBadWordMain.class.getClassLoader();
         final StringBuilder stringBuilder = new StringBuilder();
+
         try {
             final BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(classLoader
                     .getResource(fileName).getFile())));

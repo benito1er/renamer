@@ -17,6 +17,7 @@ public class TvShowArrangerInvoker {
         tvShowArrangers.add(TorikoTvShowArranger.getInstance());
         tvShowArrangers.add(AttackOnTitanTvShowArranger.getInstance());
         tvShowArrangers.add(OverlordTvShowArranger.getInstance());
+        tvShowArrangers.add(DragonBallZTvShowArranger.getInstance());
         tvShowArrangers.add(DragonBallTvShowArranger.getInstance());
         tvShowArrangers.add(SaintSeiyaTvShowArranger.getInstance());
         return tvShowArrangers;

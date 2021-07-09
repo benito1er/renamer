@@ -14,10 +14,7 @@ public class BorutoTvShowArranger  extends AbstractTvShowArranger {
         return INSTANCE;
     }
     public boolean isThisTvShowArrangerFile(String lowerFileName) {
-        if (StringUtils.containsIgnoreCase(lowerFileName, "boruto") && StringUtils.containsIgnoreCase(lowerFileName, "next"))
-            return true;
-        else
-            return false;
+        return StringUtils.containsIgnoreCase(lowerFileName, "boruto") && StringUtils.containsIgnoreCase(lowerFileName, "next");
     }
 
     public String getTvShowSeason(String fileName, String episode) {

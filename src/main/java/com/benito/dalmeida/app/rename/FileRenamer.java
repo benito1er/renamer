@@ -77,7 +77,7 @@ public class FileRenamer {
                         + FileRenamer.fileSeparator + trashDir + FileRenamer.fileSeparator;
                 trashable = moveToTemp(trashDirectory, errorMessage, file);
             }
-            result = trashable ? true : newFile.exists();
+            result = trashable || newFile.exists();
             if (!result) {
 
                 try {
@@ -111,7 +111,7 @@ public class FileRenamer {
                 || StringUtils.containsIgnoreCase(errorMessage, "is not a directory")
                 || StringUtils.containsIgnoreCase(errorMessage, "directory cannot be")) {
             final String oldFileName = file.getCanonicalPath();
-            String tempSubDirectory = new String(StringUtils.substringBeforeLast(oldFileName,"."));
+            String tempSubDirectory = StringUtils.substringBeforeLast(oldFileName, ".");
             for (final String rootName : rootDirectories) {
                 if (StringUtils.containsIgnoreCase(tempSubDirectory, rootName)) {
                     tempSubDirectory = StringUtils.substringAfter(tempSubDirectory, rootName);

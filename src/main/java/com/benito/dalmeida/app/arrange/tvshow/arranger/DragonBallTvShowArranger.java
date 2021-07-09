@@ -22,13 +22,9 @@ public class DragonBallTvShowArranger extends AbstractTvShowArranger {
     }
 
     public boolean isThisTvShowArrangerFile(String lowerFileName) {
-        if (StringUtils.containsIgnoreCase(lowerFileName, "dragonball -")
+        return StringUtils.containsIgnoreCase(lowerFileName, "dragonball -")
                 || StringUtils.startsWithIgnoreCase(lowerFileName, "ghf2.z.t.d.b")
-                || StringUtils.startsWithIgnoreCase(lowerFileName, "ghf.z.t.d.b")
-        )
-            return true;
-        else
-            return false;
+                || StringUtils.startsWithIgnoreCase(lowerFileName, "ghf.z.t.d.b");
     }
 
     @Override

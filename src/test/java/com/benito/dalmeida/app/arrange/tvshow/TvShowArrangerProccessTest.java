@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class TvShowArrangerProccessTest {
 
-	private TvShowArrangerProccess tvShowArrangerProccess =  new TvShowArrangerProccess();
+	private final TvShowArrangerProccess tvShowArrangerProccess =  new TvShowArrangerProccess();
 	@Test
 	public void testGetMapOfFiles(){
 		String fileName ="W://Téléchargé";

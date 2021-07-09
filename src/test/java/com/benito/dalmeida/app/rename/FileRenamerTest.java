@@ -2,6 +2,7 @@ package com.benito.dalmeida.app.rename;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 
@@ -51,5 +52,12 @@ public class FileRenamerTest {
     public void testFuzzy() {
         final int distance = StringUtils.getLevenshteinDistance("[cpasbien.com]", "[ceasbien.com]");
         System.out.println(distance);
+    }
+
+    @Test
+    public void testArrange(){
+        String [] sampleDirs = {"W:\\Téléchargé"};
+        fileRenamer = new FileRenamer(sampleDirs);
+       // final List<String> wordToRemoves = Files.readAllLines()
     }
 }

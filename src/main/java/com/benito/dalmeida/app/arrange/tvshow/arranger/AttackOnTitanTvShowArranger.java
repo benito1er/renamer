@@ -14,12 +14,9 @@ public class AttackOnTitanTvShowArranger extends AbstractTvShowArranger {
         return INSTANCE;
     }
     public boolean isThisTvShowArrangerFile(String lowerFileName){
-        if( (StringUtils.containsIgnoreCase(lowerFileName, "attack") && StringUtils.containsIgnoreCase(lowerFileName, "on")&& StringUtils.containsIgnoreCase(lowerFileName, "titan"))
-            ||  ((StringUtils.containsIgnoreCase(lowerFileName, "attaque") && StringUtils.containsIgnoreCase(lowerFileName, "des")&& StringUtils.containsIgnoreCase(lowerFileName, "titan")))
-            ||  ((StringUtils.containsIgnoreCase(lowerFileName, "shingeki") && StringUtils.containsIgnoreCase(lowerFileName, "no")&& StringUtils.containsIgnoreCase(lowerFileName, "kyojin"))))
-            return true;
-        else
-            return false;
+        return (StringUtils.containsIgnoreCase(lowerFileName, "attack") && StringUtils.containsIgnoreCase(lowerFileName, "on") && StringUtils.containsIgnoreCase(lowerFileName, "titan"))
+                || ((StringUtils.containsIgnoreCase(lowerFileName, "attaque") && StringUtils.containsIgnoreCase(lowerFileName, "des") && StringUtils.containsIgnoreCase(lowerFileName, "titan")))
+                || ((StringUtils.containsIgnoreCase(lowerFileName, "shingeki") && StringUtils.containsIgnoreCase(lowerFileName, "no") && StringUtils.containsIgnoreCase(lowerFileName, "kyojin")));
     }
 
     @Override

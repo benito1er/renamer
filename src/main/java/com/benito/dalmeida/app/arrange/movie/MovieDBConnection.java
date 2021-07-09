@@ -16,7 +16,7 @@ import java.util.List;
 public class MovieDBConnection {
     private static final Log LOGGER = LogFactory.getLog(MovieDBConnection.class);
 
-    private String sqliteDatabaseFilePath= Constant.MY_MOVIES_DB_FILE;
+    private final String sqliteDatabaseFilePath= Constant.MY_MOVIES_DB_FILE;
 
 
     public Connection connect() {

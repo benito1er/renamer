@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class TvShowKnownPatternName {
 
-    private String lowerFileName;
+    private final String lowerFileName;
     private String season;
     private String episode;
 

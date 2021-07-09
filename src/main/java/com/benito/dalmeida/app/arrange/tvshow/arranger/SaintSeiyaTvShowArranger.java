@@ -22,12 +22,8 @@ public class SaintSeiyaTvShowArranger extends AbstractTvShowArranger {
     }
 
     public boolean isThisTvShowArrangerFile(String lowerFileName) {
-        if (StringUtils.containsIgnoreCase(lowerFileName, "saint")
-                && StringUtils.containsIgnoreCase(lowerFileName, "seiya")
-        )
-            return true;
-        else
-            return false;
+        return StringUtils.containsIgnoreCase(lowerFileName, "saint")
+                && StringUtils.containsIgnoreCase(lowerFileName, "seiya");
     }
 
     @Override

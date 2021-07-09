@@ -21,10 +21,7 @@ public class TorikoTvShowArranger extends AbstractTvShowArranger {
     }
 
     public boolean isThisTvShowArrangerFile(String lowerFileName) {
-        if (StringUtils.containsIgnoreCase(lowerFileName, "toriko"))
-            return true;
-        else
-            return false;
+        return StringUtils.containsIgnoreCase(lowerFileName, "toriko");
     }
 
     public String getTvShowSeason(String fileName, String episode) {

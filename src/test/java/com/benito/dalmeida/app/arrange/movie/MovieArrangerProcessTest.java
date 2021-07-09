@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class MovieArrangerProcessTest {
-    private MovieArrangerProccess movieArrangerProccess =  new MovieArrangerProccess();
+    private final MovieArrangerProccess movieArrangerProccess =  new MovieArrangerProccess();
 
     @Test
     public void testArrange() throws ParserConfigurationException, SAXException, IOException {

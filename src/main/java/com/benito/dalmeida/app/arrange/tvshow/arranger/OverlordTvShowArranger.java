@@ -18,9 +18,7 @@ public class OverlordTvShowArranger extends AbstractTvShowArranger {
 
     @Override
     public boolean isThisTvShowArrangerFile(String lowerFileName) {
-        if (StringUtils.startsWithIgnoreCase(lowerFileName, "overlord"))
-            return true;
-        return false;
+        return StringUtils.startsWithIgnoreCase(lowerFileName, "overlord");
     }
 
     @Override

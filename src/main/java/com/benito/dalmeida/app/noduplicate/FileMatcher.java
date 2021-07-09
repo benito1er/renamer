@@ -16,12 +16,9 @@ public class FileMatcher {
     public boolean areSimilar(final FileMatcher f1, final FileMatcher f2) {
         final String shorterName = f1.getShortName().length() > f2.getShortName().length() ? f2.getShortName() : f1
                 .getShortName();
-        if (f1.getFileSie().compareTo(f2.getFileSie()) == 0
+        return f1.getFileSie().compareTo(f2.getFileSie()) == 0
                 && (StringUtils.containsIgnoreCase(f1.getShortName(), shorterName) || StringUtils.containsIgnoreCase(
-                        f2.getShortName(), shorterName))) {
-            return true;
-        }
-        return false;
+                f2.getShortName(), shorterName));
     }
 
     public String getShortName() {
@@ -120,10 +117,7 @@ public class FileMatcher {
         } else if (!modificationDate.equals(other.modificationDate))
             return false;
         if (shortName == null) {
-            if (other.shortName != null)
-                return false;
-        } else if (!shortName.equals(other.shortName))
-            return false;
-        return true;
+            return other.shortName == null;
+        } else return shortName.equals(other.shortName);
     }
 }

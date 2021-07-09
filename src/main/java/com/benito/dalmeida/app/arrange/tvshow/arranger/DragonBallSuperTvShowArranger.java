@@ -4,21 +4,25 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 
-public class DragonBallSuperTvShowArranger  extends AbstractTvShowArranger {
-    private DragonBallSuperTvShowArranger (){           }
+public class DragonBallSuperTvShowArranger extends AbstractTvShowArranger {
+    private DragonBallSuperTvShowArranger() {
+    }
+
     private static DragonBallSuperTvShowArranger INSTANCE = null;
 
-    public static DragonBallSuperTvShowArranger getInstance(){
-        if(INSTANCE == null)
-            INSTANCE =  new DragonBallSuperTvShowArranger();
+    public static DragonBallSuperTvShowArranger getInstance() {
+        if (INSTANCE == null)
+            INSTANCE = new DragonBallSuperTvShowArranger();
         return INSTANCE;
     }
+
     public boolean isThisTvShowArrangerFile(String lowerFileName) {
         if (StringUtils.containsIgnoreCase(lowerFileName, "DBS") || StringUtils.containsIgnoreCase(lowerFileName, "DBSuper"))
             return true;
-        if (StringUtils.containsIgnoreCase(lowerFileName, "Dragon") && StringUtils.containsIgnoreCase(lowerFileName, "ball") && StringUtils.containsIgnoreCase(lowerFileName, "super"))
-            return true;
-        return false;
+        return StringUtils.containsIgnoreCase(lowerFileName, "Dragon")
+                && StringUtils.containsIgnoreCase(lowerFileName, "ball")
+                && !StringUtils.containsIgnoreCase(lowerFileName, "z")
+                && StringUtils.containsIgnoreCase(lowerFileName, "super");
     }
 
 

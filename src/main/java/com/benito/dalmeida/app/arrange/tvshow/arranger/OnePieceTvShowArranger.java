@@ -20,13 +20,9 @@ public class OnePieceTvShowArranger extends AbstractTvShowArranger {
     }
 
     public boolean isThisTvShowArrangerFile(String lowerFileName) {
-        if ((StringUtils.containsIgnoreCase(lowerFileName, "one") && StringUtils.containsIgnoreCase(lowerFileName, "piece"))
+        return (StringUtils.containsIgnoreCase(lowerFileName, "one") && StringUtils.containsIgnoreCase(lowerFileName, "piece"))
                 ||
-                ( StringUtils.startsWithIgnoreCase(lowerFileName, "OP-") &&  (StringUtils.containsIgnoreCase(lowerFileName, "L@mBerT") || StringUtils.containsIgnoreCase(lowerFileName, "LamBerT")))
-        )
-            return true;
-        else
-            return false;
+                (StringUtils.startsWithIgnoreCase(lowerFileName, "OP-") && (StringUtils.containsIgnoreCase(lowerFileName, "L@mBerT") || StringUtils.containsIgnoreCase(lowerFileName, "LamBerT")));
     }
 
     @Override

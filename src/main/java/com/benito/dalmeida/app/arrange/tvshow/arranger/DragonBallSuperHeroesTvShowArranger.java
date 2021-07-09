@@ -30,9 +30,7 @@ public class DragonBallSuperHeroesTvShowArranger  extends AbstractTvShowArranger
 
     public boolean isThisTvShowArrangerFile(String lowerFileName) {
         DragonBallSuperTvShowArranger dragonBallSuper =  DragonBallSuperTvShowArranger.getInstance();
-        if (dragonBallSuper.isThisTvShowArrangerFile(lowerFileName) && StringUtils.containsIgnoreCase(lowerFileName, "heroes"))
-            return true;
-        return false;
+        return dragonBallSuper.isThisTvShowArrangerFile(lowerFileName) && StringUtils.containsIgnoreCase(lowerFileName, "heroes");
     }
 
 
